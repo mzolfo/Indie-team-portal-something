@@ -11,6 +11,9 @@ public class PortalSwitcher : MonoBehaviour
     /// 
     [SerializeField]
     private PortalTextureSetup PortalRenderManager;
+    [SerializeField]
+    private PortalDeactivator deactivatorScript;
+
     //values to be changed
     [SerializeField]
     private PortalCamera camera1;
@@ -86,8 +89,7 @@ public class PortalSwitcher : MonoBehaviour
     private Transform framePortal4;
 
     //end values to change to
-    //we need to switch each aspect of a portal's destination and link during runtime
-    //we want to be able to press a button or something and switch each portal to different destinations.
+    
     private PortalCamera primaryPortalCamera;
     private Transform targetPortalTransform;
     private MeshRenderer primaryPortalRenderPlane;
@@ -109,7 +111,7 @@ public class PortalSwitcher : MonoBehaviour
         colliderPlaneScript2 = colliderPlane2.GetComponent<PortalTeleporter>();
         colliderPlaneScript3 = colliderPlane3.GetComponent<PortalTeleporter>();
         colliderPlaneScript4 = colliderPlane4.GetComponent<PortalTeleporter>();
-
+        deactivatorScript = GetComponent<PortalDeactivator>();
 
     }
 
@@ -118,8 +120,8 @@ public class PortalSwitcher : MonoBehaviour
     {
         CheckDestinationsAreEqual();
 
-        if (portalRevertDest != 0)
-        { RevertPortal(portalRevertDest); }
+        //if (portalRevertDest != 0)
+       // { RevertPortal(portalRevertDest); }
     }
 
     void CheckDestinationsAreEqual()
@@ -139,11 +141,21 @@ public class PortalSwitcher : MonoBehaviour
     void BeginSwitch(int Primary, int Target)
     {
         // we have a portal and the destination it has been assigned to we need to switch the primary, target and targetlast
+        deactivatorScript.ActivateTargetPortal(Primary);
         CheckTargetLastDestination(Target);
+        if (portalRevertDest != 0)
+        { RevertPortal(portalRevertDest); }
+        CheckTargetLastDestination(Primary);
+        if (portalRevertDest != 0)
+        { RevertPortal(portalRevertDest); }
         //we know if something needs to be reverted now, now we need to start switching the portals.
         ChangePortalDestinationValues(Primary, Target);
-        ChangePortalDestinationValues(Target, Primary);
+        
 
+      //  CheckTargetLastDestination(Primary);
+        ChangePortalDestinationValues(Target, Primary);
+       // if (portalRevertDest != 0)
+       // { RevertPortal(portalRevertDest); }
         PortalRenderManager.UpdateCameraRenderTexture();
     }
     
@@ -153,22 +165,25 @@ public class PortalSwitcher : MonoBehaviour
     {
         if (Target == 1)
         {
-            if (portalTargetDest1 == 0) { return; }
+            if (portalTargetDest1 == 0) {
+                deactivatorScript.ActivateTargetPortal(Target);
+                return;
+            }
             else { portalRevertDest = portalCurrentDest1; }
         }
         else if (Target == 2)
         {
-            if (portalTargetDest2 == 0) { return; }
+            if (portalTargetDest2 == 0) { deactivatorScript.ActivateTargetPortal(Target); return; }
             else { portalRevertDest = portalCurrentDest2; }
         }
         else if (Target == 3)
         {
-            if (portalTargetDest3 == 0) { return; }
+            if (portalTargetDest3 == 0) { deactivatorScript.ActivateTargetPortal(Target); return; }
             else { portalRevertDest = portalCurrentDest3; }
         }
         else if (Target == 4)
         {
-            if (portalTargetDest4 == 0) { return; }
+            if (portalTargetDest4 == 0) { deactivatorScript.ActivateTargetPortal(Target); return; }
             else { portalRevertDest = portalCurrentDest4; }
         }
     }
@@ -178,11 +193,31 @@ public class PortalSwitcher : MonoBehaviour
     //one to null. Change the other's destination to be the first and change every one of their values such that they are now
     //each other's destination.
 
-    void RevertPortal(int RevertTarget) //UNFINISHED
+    void RevertPortal(int RevertTarget) 
     {
         //set a portal's current and target dest to 0 and deactivate it.
+        deactivatorScript.DeactivateTargetPortal(RevertTarget);
         portalRevertDest = 0;
-        return;
+        if (RevertTarget == 1)
+        {
+            portalTargetDest1 = 0;
+            portalCurrentDest1 = 0;
+        }
+        else if (RevertTarget == 2)
+        {
+            portalTargetDest2 = 0;
+            portalCurrentDest2 = 0;
+        }
+        else if (RevertTarget == 3)
+        {
+            portalTargetDest3 = 0;
+            portalCurrentDest3 = 0;
+        }
+        else if (RevertTarget == 4)
+        {
+            portalTargetDest4 = 0;
+            portalCurrentDest4 = 0;
+        }
     }
 
     void AssignPrimaryandTargetValues(int Primary, int Target)
