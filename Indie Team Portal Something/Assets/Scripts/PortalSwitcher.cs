@@ -97,12 +97,6 @@ public class PortalSwitcher : MonoBehaviour
     private PortalTeleporter primaryPortalColliderPlaneScript;
     private Transform targetPortalColliderPlaneTransform;
 
-    //in the end i want to switch one stored either here or on each portal and be able to switch their destinations 
-    //and what they display
-
-    //each portal must be connected to another in order to function. One's destination is always the other's 
-    //destination as well
-
     
     // Start is called before the first frame update
     void Start()
@@ -188,10 +182,7 @@ public class PortalSwitcher : MonoBehaviour
         }
     }
 
-    //portals have destinations, if their destination is 0, do not attempt to change its other values just deactivate it.
-    //if a destination is changed, check which it is changing to. find which the other it is already connected with and set that 
-    //one to null. Change the other's destination to be the first and change every one of their values such that they are now
-    //each other's destination.
+    
 
     void RevertPortal(int RevertTarget) 
     {
