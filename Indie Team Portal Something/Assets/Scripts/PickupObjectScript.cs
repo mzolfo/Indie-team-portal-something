@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class PickupObjectScript : MonoBehaviour
 {
+
+    
+    public int myAssociatedPortal;
     [SerializeField]
     private bool isPickedUp = false;
-
+    [SerializeField]
+    private bool isInContextualPosition = false;
+    [SerializeField]
+    private Transform playerPickedUpPosition;
     [SerializeField]
     private Transform pickedUpPosition;
     [SerializeField]
@@ -32,9 +39,20 @@ public class PickupObjectScript : MonoBehaviour
 
     public void GetPickedUp()
     {
+        if (isInContextualPosition)
+        {
+           ContextualPosition positionScript = pickedUpPosition.gameObject.GetComponent<ContextualPosition>();
+            positionScript.DetachToDioramaObject();
+
+        }
+        pickedUpPosition = playerPickedUpPosition;
+        isInContextualPosition = false;
         isPickedUp = true;
-        myCollider.enabled = !myCollider.enabled;
+        myCollider.enabled = false;
         myOwnRigidbody.isKinematic = true;
+        this.gameObject.transform.position = pickedUpPosition.position;
+        this.gameObject.transform.rotation = pickedUpPosition.rotation;
+
     }
 
     public void GetDropped()
@@ -46,7 +64,12 @@ public class PickupObjectScript : MonoBehaviour
 
     public void GetAssignedPosition(GameObject PositionAssigned)
     {
-
+        isInContextualPosition = true;
+        isPickedUp = true;
+        this.gameObject.transform.position = pickedUpPosition.position;
+        this.gameObject.transform.rotation = pickedUpPosition.rotation;
+        myCollider.enabled = true;
+        pickedUpPosition = PositionAssigned.transform;
     }
 
 }

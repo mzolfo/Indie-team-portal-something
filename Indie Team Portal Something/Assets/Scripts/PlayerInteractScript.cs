@@ -25,12 +25,7 @@ public class PlayerInteractScript : MonoBehaviour
     //if the object is simply interactable then start their interaction
     //if the player is holding an object then when pressing q the object regains its physics and drops from whereever the player
     //was holding it
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+   
     // Update is called once per frame
     void Update()
     {
@@ -54,6 +49,8 @@ public class PlayerInteractScript : MonoBehaviour
 
     void CheckIfInteractableIsInRange()
     {
+       
+
         RaycastHit hit;
         if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 4))
         {
@@ -81,13 +78,25 @@ public class PlayerInteractScript : MonoBehaviour
 
     void AttemptToInteract()
     {
-       
 
         if (pickedUpObject == null)
         {
             if (reachableInteractableObject.GetComponent<PickupObjectScript>() != null)
             {
                 PickUpObject(reachableInteractableObject.GetComponent<PickupObjectScript>());
+            }
+        }
+        else
+        {
+            if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
+            {
+                ContextualPosition targetScript = reachableInteractableObject.GetComponent<ContextualPosition>();
+                PickupObjectScript pickUpScript = pickedUpObject.GetComponent<PickupObjectScript>();
+                pickUpScript.GetAssignedPosition(reachableInteractableObject);
+                targetScript.AttachToDioramaObject(pickedUpObject);
+                pickedUpObject = null;
+                reachableInteractableObject = null;
+                interactableInRange = false;
             }
         }
         //this only reacts if the interactable is a pickup

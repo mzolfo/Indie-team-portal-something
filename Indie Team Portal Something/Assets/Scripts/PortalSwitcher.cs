@@ -138,7 +138,7 @@ public class PortalSwitcher : MonoBehaviour
 
     //if not then we begin the change
 
-    void BeginSwitch(int Primary, int Target)
+    public void BeginSwitch(int Primary, int Target)
     {
         // we have a portal and the destination it has been assigned to we need to switch the primary, target and targetlast
         deactivatorScript.ActivateTargetPortal(Primary);
@@ -190,7 +190,7 @@ public class PortalSwitcher : MonoBehaviour
 
     
 
-    void RevertPortal(int RevertTarget) 
+    public void RevertPortal(int RevertTarget) 
     {
         //set a portal's current and target dest to 0 and deactivate it.
         deactivatorScript.DeactivateTargetPortal(RevertTarget);
