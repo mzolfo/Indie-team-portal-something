@@ -14,7 +14,9 @@ public class PortalSwitcher : MonoBehaviour
     [SerializeField]
     private PortalDeactivator deactivatorScript;
 
+    //public static bool Foldout(bool foldout, string content, bool toggleOnLabelClick, GUIStyle style = EditorStyles.foldout); 
     //values to be changed
+    [Header("portalCameras")]
     [SerializeField]
     private PortalCamera camera1;
     [SerializeField]
@@ -24,6 +26,7 @@ public class PortalSwitcher : MonoBehaviour
     [SerializeField]
     private PortalCamera camera4;
 
+    [Header("Render Planes")]
     [SerializeField]
     private MeshRenderer renderPlane1;
     [SerializeField]
@@ -61,6 +64,7 @@ public class PortalSwitcher : MonoBehaviour
     //end values to be changed
 
     //values to change to
+    [Header("Camera Materials")]
     [SerializeField]
     private Material CameraMat_1;
     [SerializeField]
@@ -70,6 +74,7 @@ public class PortalSwitcher : MonoBehaviour
     [SerializeField]
     private Material CameraMat_4;
 
+    [Header("Collider Planes")]
     [SerializeField]
     private GameObject colliderPlane1;
     [SerializeField]
@@ -79,6 +84,7 @@ public class PortalSwitcher : MonoBehaviour
     [SerializeField]
     private GameObject colliderPlane4;
 
+    [Header("Portal Transforms")]
     [SerializeField]
     private Transform framePortal1;
     [SerializeField]
