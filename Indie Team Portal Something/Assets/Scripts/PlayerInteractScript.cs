@@ -58,8 +58,20 @@ public class PlayerInteractScript : MonoBehaviour
             if (hit.transform.gameObject.tag == "Interactable")
             {
                 reachableInteractableObject = hit.transform.gameObject;
-                interactableInRange = true;
-                InteractText.text = "Press E to Interact";
+                if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
+                {
+                    if (pickedUpObject != null)
+                    {
+                        interactableInRange = true;
+                        InteractText.text = "Press E to Interact";
+                    }
+                    else { reachableInteractableObject = null; }
+                }
+                else {
+                    interactableInRange = true;
+                    InteractText.text = "Press E to Interact";
+                }
+                
             }
             else
             {
