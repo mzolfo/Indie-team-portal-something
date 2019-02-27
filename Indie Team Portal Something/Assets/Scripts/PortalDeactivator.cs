@@ -28,8 +28,8 @@ public class PortalDeactivator : MonoBehaviour
 
     private void Start()
     {
-        DeactivateTargetPortal(1);
-        DeactivateTargetPortal(2);
+        //DeactivateTargetPortal(1);
+        //DeactivateTargetPortal(2);
         DeactivateTargetPortal(3);
         DeactivateTargetPortal(4);
     }

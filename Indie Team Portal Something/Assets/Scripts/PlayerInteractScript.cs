@@ -13,6 +13,13 @@ public class PlayerInteractScript : MonoBehaviour
     private Text InteractText;
 
     [SerializeField]
+    private Transform playerPickedUpPosition;
+    [SerializeField]
+    private Transform playerDroppedPosition;
+
+    private Transform logTransformMess;
+
+    [SerializeField]
     private GameObject reachableInteractableObject;
 
     private bool interactableInRange;
@@ -91,25 +98,30 @@ public class PlayerInteractScript : MonoBehaviour
     void AttemptToInteract()
     {
 
-        if (pickedUpObject == null)
+        if (reachableInteractableObject.GetComponent<PickupObjectScript>() != null)
         {
-            if (reachableInteractableObject.GetComponent<PickupObjectScript>() != null)
+            if (pickedUpObject == null)
             {
                 PickUpObject(reachableInteractableObject.GetComponent<PickupObjectScript>());
             }
         }
-        else
+        else if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
         {
-            if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
+            PickupObjectScript pickUpScript = pickedUpObject.GetComponent<PickupObjectScript>();
+            ContextualPosition targetScript = reachableInteractableObject.GetComponent<ContextualPosition>();
+            if (pickUpScript.myInteractType == PickupObjectScript.InteractType.Diorama)
             {
-                ContextualPosition targetScript = reachableInteractableObject.GetComponent<ContextualPosition>();
-                PickupObjectScript pickUpScript = pickedUpObject.GetComponent<PickupObjectScript>();
                 pickUpScript.GetAssignedPosition(reachableInteractableObject);
                 targetScript.AttachToDioramaObject(pickedUpObject);
                 pickedUpObject = null;
                 reachableInteractableObject = null;
                 interactableInRange = false;
             }
+            else if (pickUpScript.myInteractType == PickupObjectScript.InteractType.ContextualPickup)
+            {
+                //define the placement of pickups in non diorama positions.
+            }
+                
         }
         //this only reacts if the interactable is a pickup
     }
@@ -119,15 +131,20 @@ public class PlayerInteractScript : MonoBehaviour
     {
         //if the object is a pickup and there is no pickup in hand then pick it up.
         pickedUpObject = reachableInteractableObject;
+        target.playerPickedUpPosition = playerPickedUpPosition;
+        target.playerDroppedPosition = playerDroppedPosition;
         target.GetPickedUp();
         reachableInteractableObject = null;
     }
 
     void DropPickedUpObject(PickupObjectScript target)
     {
+        logTransformMess = this.transform;
         target.GetDropped();
         pickedUpObject = null;
 
+        this.transform.position = logTransformMess.position;
+        this.transform.rotation = logTransformMess.rotation;
     }
     
 

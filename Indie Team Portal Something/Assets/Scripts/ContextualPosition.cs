@@ -13,6 +13,10 @@ public class ContextualPosition : MonoBehaviour
     private GameObject myAssignedObject;
     private BoxCollider myOwnCollider;
 
+    [SerializeField]
+    private bool hasObjectToStart = false;
+    [SerializeField]
+    private GameObject startObject;
 
 
     //a script for locations that collect pickups to be placed.
@@ -25,12 +29,30 @@ public class ContextualPosition : MonoBehaviour
     void Start()
     {
         myOwnCollider = GetComponent<BoxCollider>();
+        if (hasObjectToStart)
+        {
+            attachObjectOnStart();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void attachObjectOnStart()
+    {
+        if (startObject == null)
+        {
+            Debug.Log("No startObject assigned. Assign Object to be linked in editor");
+            return;
+        }
+        else {
+            AttachToDioramaObject(startObject);
+            PickupObjectScript targetScript = startObject.GetComponent<PickupObjectScript>();
+            targetScript.GetAssignedPosition(this.gameObject);
+        }
     }
 
     public void AttachToDioramaObject(GameObject Target)

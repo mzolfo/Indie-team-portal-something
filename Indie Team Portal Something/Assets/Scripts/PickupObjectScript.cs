@@ -5,15 +5,18 @@ using UnityEngine;
 [SelectionBase]
 public class PickupObjectScript : MonoBehaviour
 {
-
+    public enum InteractType { Pickup, ContextualPickup, Diorama };
     
+    public InteractType myInteractType;
+
     public int myAssociatedPortal;
     [SerializeField]
     private bool isPickedUp = false;
     [SerializeField]
     private bool isInContextualPosition = false;
-    [SerializeField]
-    private Transform playerPickedUpPosition;
+
+    public Transform playerPickedUpPosition;
+    public Transform playerDroppedPosition;
     [SerializeField]
     private Transform pickedUpPosition;
     [SerializeField]
@@ -57,19 +60,22 @@ public class PickupObjectScript : MonoBehaviour
 
     public void GetDropped()
     {
+        this.gameObject.transform.position = new Vector3(playerDroppedPosition.position.x, playerPickedUpPosition.position.y, playerDroppedPosition.position.z);
+        this.gameObject.transform.rotation = playerDroppedPosition.rotation;
         isPickedUp = false;
-        myCollider.enabled = true;
         myOwnRigidbody.isKinematic = false;
+        myCollider.enabled = true;
     }
 
     public void GetAssignedPosition(GameObject PositionAssigned)
     {
         isInContextualPosition = true;
         isPickedUp = true;
+        pickedUpPosition = PositionAssigned.transform;
         this.gameObject.transform.position = pickedUpPosition.position;
         this.gameObject.transform.rotation = pickedUpPosition.rotation;
         myCollider.enabled = true;
-        pickedUpPosition = PositionAssigned.transform;
+        
     }
 
 }

@@ -16,6 +16,24 @@ public class PortalSwitcher : MonoBehaviour
 
     //public static bool Foldout(bool foldout, string content, bool toggleOnLabelClick, GUIStyle style = EditorStyles.foldout); 
     //values to be changed
+
+    [SerializeField]
+    private int portalCurrentDest1 = 0;
+    [SerializeField]
+    private int portalCurrentDest2 = 0;
+    [SerializeField]
+    private int portalCurrentDest3 = 0;
+    [SerializeField]
+    private int portalCurrentDest4 = 0;
+
+    [SerializeField]
+    private int portalTargetDest1 = 0;
+    [SerializeField]
+    private int portalTargetDest2 = 0;
+    [SerializeField]
+    private int portalTargetDest3 = 0;
+    [SerializeField]
+    private int portalTargetDest4 = 0;
     [Header("portalCameras")]
     [SerializeField]
     private PortalCamera camera1;
@@ -42,23 +60,7 @@ public class PortalSwitcher : MonoBehaviour
     private PortalTeleporter colliderPlaneScript3;    
     private PortalTeleporter colliderPlaneScript4;
 
-    [SerializeField]
-    private int portalCurrentDest1 = 0;
-    [SerializeField]
-    private int portalCurrentDest2 = 0;
-    [SerializeField]
-    private int portalCurrentDest3 = 0;
-    [SerializeField]
-    private int portalCurrentDest4 = 0;
-
-    [SerializeField]
-    private int portalTargetDest1 = 0;
-    [SerializeField]
-    private int portalTargetDest2 = 0;
-    [SerializeField]
-    private int portalTargetDest3 = 0;
-    [SerializeField]
-    private int portalTargetDest4 = 0;
+    
 
     private int portalRevertDest;
     //end values to be changed
@@ -123,6 +125,8 @@ public class PortalSwitcher : MonoBehaviour
         //if (portalRevertDest != 0)
        // { RevertPortal(portalRevertDest); }
     }
+
+
 
     void CheckDestinationsAreEqual()
     {
