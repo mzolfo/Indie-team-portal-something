@@ -282,7 +282,8 @@ public class PortalSwitcher : MonoBehaviour
         AssignPrimaryandTargetValues(Primary, Target);
         primaryPortalCamera.otherPortal = targetPortalTransform;
         primaryPortalRenderPlane.material = targetPortalCameraMat;
-        primaryPortalColliderPlaneScript.reciever = targetPortalColliderPlaneTransform;
+        primaryPortalColliderPlaneScript.ChangeDestinationPortal(targetPortalColliderPlaneTransform);
+        //primaryPortalColliderPlaneScript.reciever = targetPortalColliderPlaneTransform;
 
         if (Primary == 1)
         {

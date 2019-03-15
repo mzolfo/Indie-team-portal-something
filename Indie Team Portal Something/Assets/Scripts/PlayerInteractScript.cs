@@ -11,6 +11,8 @@ public class PlayerInteractScript : MonoBehaviour
     private GameObject pickedUpObject;
     [SerializeField]
     private Text InteractText;
+    
+
 
     [SerializeField]
     private Transform playerPickedUpPosition;
@@ -36,7 +38,7 @@ public class PlayerInteractScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
         CheckIfInteractableIsInRange();
         if (Input.GetButtonDown("Interact"))
         {
