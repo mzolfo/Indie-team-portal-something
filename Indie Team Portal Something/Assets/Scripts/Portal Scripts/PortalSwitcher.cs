@@ -17,84 +17,36 @@ public class PortalSwitcher : MonoBehaviour
     //public static bool Foldout(bool foldout, string content, bool toggleOnLabelClick, GUIStyle style = EditorStyles.foldout); 
     //values to be changed
 
-    [SerializeField]
-    private int portalCurrentDest1 = 0;
-    [SerializeField]
-    private int portalCurrentDest2 = 0;
-    [SerializeField]
-    private int portalCurrentDest3 = 0;
-    [SerializeField]
-    private int portalCurrentDest4 = 0;
+    //we want to rearrange all of these into lists... lists that just make this better to manage.
+    //we need to make sure that every list lines up correctly so each trait is taken by each one individually and in order.
 
     [SerializeField]
-    private int portalTargetDest1 = 0;
+    private List<int> portalCurrentDest;
     [SerializeField]
-    private int portalTargetDest2 = 0;
-    [SerializeField]
-    private int portalTargetDest3 = 0;
-    [SerializeField]
-    private int portalTargetDest4 = 0;
-    [Header("portalCameras")]
-    [SerializeField]
-    private PortalCamera camera1;
-    [SerializeField]
-    private PortalCamera camera2;
-    [SerializeField]
-    private PortalCamera camera3;
-    [SerializeField]
-    private PortalCamera camera4;
+    private List<int> portalTargetDest;
 
-    [Header("Render Planes")]
     [SerializeField]
-    private MeshRenderer renderPlane1;
+    private List<PortalCamera> portalCameras;
     [SerializeField]
-    private MeshRenderer renderPlane2;
-    [SerializeField]
-    private MeshRenderer renderPlane3;
-    [SerializeField]
-    private MeshRenderer renderPlane4;
-
-    
-    private PortalTeleporter colliderPlaneScript1;    
-    private PortalTeleporter colliderPlaneScript2;    
-    private PortalTeleporter colliderPlaneScript3;    
-    private PortalTeleporter colliderPlaneScript4;
-
-    
+    private List<MeshRenderer> renderPlanes;
+   [SerializeField]
+    private List<PortalTeleporter> colliderPlaneScripts;
 
     private int portalRevertDest;
     //end values to be changed
 
     //values to change to
-    [Header("Camera Materials")]
     [SerializeField]
-    private Material CameraMat_1;
-    [SerializeField]
-    private Material CameraMat_2;
-    [SerializeField]
-    private Material CameraMat_3;
-    [SerializeField]
-    private Material CameraMat_4;
+    private List<Material> cameraMaterials;
 
-    [Header("Collider Planes")]
-    [SerializeField]
-    private GameObject colliderPlane1;
-    [SerializeField]
-    private GameObject colliderPlane2;
-    [SerializeField]
-    private GameObject colliderPlane3;
-    [SerializeField]
-    private GameObject colliderPlane4;
 
-    [Header("Portal Transforms")]
     [SerializeField]
-    private Transform framePortal1;
+    private List<GameObject> colliderPlanes;
+
+
     [SerializeField]
-    private Transform framePortal2;
-    [SerializeField]
-    private Transform framePortal3;
-    [SerializeField]
-    private Transform framePortal4;
+    private List<Transform> portalTransforms;
+    
 
     //end values to change to
     
@@ -109,10 +61,10 @@ public class PortalSwitcher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        colliderPlaneScript1 = colliderPlane1.GetComponent<PortalTeleporter>();
-        colliderPlaneScript2 = colliderPlane2.GetComponent<PortalTeleporter>();
-        colliderPlaneScript3 = colliderPlane3.GetComponent<PortalTeleporter>();
-        colliderPlaneScript4 = colliderPlane4.GetComponent<PortalTeleporter>();
+        //for (int i = 0; i < colliderPlanes.Count; i++)
+       // {
+       //     colliderPlaneScripts.Add(colliderPlanes[i].GetComponent<PortalTeleporter>());
+       // }
         deactivatorScript = GetComponent<PortalDeactivator>();
 
     }
@@ -130,14 +82,14 @@ public class PortalSwitcher : MonoBehaviour
 
     void CheckDestinationsAreEqual()
     {
-        if (portalCurrentDest1 != portalTargetDest1)
-        { BeginSwitch(1, portalTargetDest1); }
-        if (portalCurrentDest2 != portalTargetDest2)
-        { BeginSwitch(2, portalTargetDest2); }
-        if (portalCurrentDest3 != portalTargetDest3)
-        { BeginSwitch(3, portalTargetDest3); }
-        if (portalCurrentDest4 != portalTargetDest4)
-        { BeginSwitch(4, portalTargetDest4); }
+        for (int i = 0; i < portalCurrentDest.Count; i++)
+        {
+            if (portalCurrentDest[i] != portalTargetDest[i])
+            {
+                BeginSwitch((i + 1), portalTargetDest[i]);
+            }
+        }
+       
     }
 
     //if not then we begin the change
@@ -146,6 +98,7 @@ public class PortalSwitcher : MonoBehaviour
     {
         // we have a portal and the destination it has been assigned to we need to switch the primary, target and targetlast
         deactivatorScript.ActivateTargetPortal(Primary);
+        deactivatorScript.ActivateTargetPortal(Target);
         CheckTargetLastDestination(Target);
         if (portalRevertDest != 0)
         { RevertPortal(portalRevertDest); }
@@ -155,11 +108,7 @@ public class PortalSwitcher : MonoBehaviour
         //we know if something needs to be reverted now, now we need to start switching the portals.
         ChangePortalDestinationValues(Primary, Target);
         
-
-      //  CheckTargetLastDestination(Primary);
         ChangePortalDestinationValues(Target, Primary);
-       // if (portalRevertDest != 0)
-       // { RevertPortal(portalRevertDest); }
         PortalRenderManager.UpdateCameraRenderTexture();
     }
     
@@ -167,28 +116,12 @@ public class PortalSwitcher : MonoBehaviour
     //the following script tells if the destination of the target needs to be reverted.
     void CheckTargetLastDestination(int Target)
     {
-        if (Target == 1)
+        if (portalTargetDest[Target - 1] != 0)
+        { portalRevertDest = portalCurrentDest[Target - 1]; } 
+        else
         {
-            if (portalTargetDest1 == 0) {
-                deactivatorScript.ActivateTargetPortal(Target);
-                return;
-            }
-            else { portalRevertDest = portalCurrentDest1; }
-        }
-        else if (Target == 2)
-        {
-            if (portalTargetDest2 == 0) { deactivatorScript.ActivateTargetPortal(Target); return; }
-            else { portalRevertDest = portalCurrentDest2; }
-        }
-        else if (Target == 3)
-        {
-            if (portalTargetDest3 == 0) { deactivatorScript.ActivateTargetPortal(Target); return; }
-            else { portalRevertDest = portalCurrentDest3; }
-        }
-        else if (Target == 4)
-        {
-            if (portalTargetDest4 == 0) { deactivatorScript.ActivateTargetPortal(Target); return; }
-            else { portalRevertDest = portalCurrentDest4; }
+            deactivatorScript.ActivateTargetPortal(Target); // may need some + 1s
+            return;
         }
     }
 
@@ -199,80 +132,23 @@ public class PortalSwitcher : MonoBehaviour
         //set a portal's current and target dest to 0 and deactivate it.
         deactivatorScript.DeactivateTargetPortal(RevertTarget);
         portalRevertDest = 0;
-        if (RevertTarget == 1)
-        {
-            portalTargetDest1 = 0;
-            portalCurrentDest1 = 0;
-        }
-        else if (RevertTarget == 2)
-        {
-            portalTargetDest2 = 0;
-            portalCurrentDest2 = 0;
-        }
-        else if (RevertTarget == 3)
-        {
-            portalTargetDest3 = 0;
-            portalCurrentDest3 = 0;
-        }
-        else if (RevertTarget == 4)
-        {
-            portalTargetDest4 = 0;
-            portalCurrentDest4 = 0;
-        }
+
+        portalTargetDest[RevertTarget - 1] = 0;
+        portalCurrentDest[RevertTarget - 1] = 0;
     }
 
     void AssignPrimaryandTargetValues(int Primary, int Target)
     {
-        //take the target portal and the primary portal and assign each value accordingly.
-        if (Primary == 1)
-        {
-            primaryPortalCamera = camera1;
-            primaryPortalRenderPlane = renderPlane1;
-            primaryPortalColliderPlaneScript = colliderPlaneScript1;
-        }
-        else if (Primary == 2)
-        {
-            primaryPortalCamera = camera2;
-            primaryPortalRenderPlane = renderPlane2;
-            primaryPortalColliderPlaneScript = colliderPlaneScript2;
-        }
-        else if (Primary == 3)
-        {
-            primaryPortalCamera = camera3;
-            primaryPortalRenderPlane = renderPlane3;
-            primaryPortalColliderPlaneScript = colliderPlaneScript3;
-        }
-        else if (Primary == 4)
-        {
-            primaryPortalCamera = camera4;
-            primaryPortalRenderPlane = renderPlane4;
-            primaryPortalColliderPlaneScript = colliderPlaneScript4;
-        }
 
-        if (Target == 1)
-        {
-            targetPortalTransform = framePortal1;
-            targetPortalCameraMat = CameraMat_1;
-            targetPortalColliderPlaneTransform = colliderPlane1.transform;
-        }
-        else if (Target == 2)
-        {
-            targetPortalTransform = framePortal2;
-            targetPortalCameraMat = CameraMat_2;
-            targetPortalColliderPlaneTransform = colliderPlane2.transform;
-        }
-        else if (Target == 3)
-        {
-            targetPortalTransform = framePortal3;
-            targetPortalCameraMat = CameraMat_3;
-            targetPortalColliderPlaneTransform = colliderPlane3.transform;
-        }
-        else if (Target == 4)
-        {
-            targetPortalTransform = framePortal4;
-            targetPortalCameraMat = CameraMat_4;
-            targetPortalColliderPlaneTransform = colliderPlane4.transform;
-        }
+        primaryPortalCamera = portalCameras[Primary - 1];
+        primaryPortalRenderPlane = renderPlanes[Primary - 1];
+        primaryPortalColliderPlaneScript = colliderPlaneScripts[Primary - 1];
+        //take the target portal and the primary portal and assign each value accordingly.
+
+        targetPortalTransform = portalTransforms[Target - 1];
+        targetPortalCameraMat = cameraMaterials[Target - 1];
+        targetPortalColliderPlaneTransform = colliderPlanes[Target - 1].transform;
+        
     }
 
 
@@ -283,28 +159,11 @@ public class PortalSwitcher : MonoBehaviour
         primaryPortalCamera.otherPortal = targetPortalTransform;
         primaryPortalRenderPlane.material = targetPortalCameraMat;
         primaryPortalColliderPlaneScript.ChangeDestinationPortal(targetPortalColliderPlaneTransform);
-        //primaryPortalColliderPlaneScript.reciever = targetPortalColliderPlaneTransform;
+        
 
-        if (Primary == 1)
-        {
-            portalTargetDest1 = Target;
-            portalCurrentDest1 = Target;
-        }
-        else if (Primary == 2)
-        {
-            portalTargetDest2 = Target;
-            portalCurrentDest2 = Target;
-        }
-        else if (Primary == 3)
-        {
-            portalTargetDest3 = Target;
-            portalCurrentDest3 = Target;
-        }
-        else if (Primary == 4)
-        {
-            portalTargetDest4 = Target;
-            portalCurrentDest4 = Target;
-        }
+        portalTargetDest[Primary - 1] = Target;
+        portalCurrentDest[Primary - 1] = Target;
+       
 
     }
 

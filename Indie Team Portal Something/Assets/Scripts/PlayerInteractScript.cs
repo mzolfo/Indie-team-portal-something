@@ -141,12 +141,12 @@ public class PlayerInteractScript : MonoBehaviour
 
     void DropPickedUpObject(PickupObjectScript target)
     {
-        logTransformMess = this.transform;
+        //logTransformMess = this.transform;
         target.GetDropped();
         pickedUpObject = null;
 
-        this.transform.position = logTransformMess.position;
-        this.transform.rotation = logTransformMess.rotation;
+        //this.transform.position = logTransformMess.position;
+        //this.transform.rotation = logTransformMess.rotation;
     }
     
 

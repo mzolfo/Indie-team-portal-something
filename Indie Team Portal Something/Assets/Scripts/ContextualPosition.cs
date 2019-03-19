@@ -70,4 +70,9 @@ public class ContextualPosition : MonoBehaviour
         portalSwitchManager.RevertPortal(myOwnPortal);
         myOwnCollider.enabled = true;
     }
+
+    public void AttachToNonDioramaObject()
+    {
+
+    }
 }

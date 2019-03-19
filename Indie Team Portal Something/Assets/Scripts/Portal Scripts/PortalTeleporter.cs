@@ -79,7 +79,7 @@ public class PortalTeleporter : MonoBehaviour
                     Debug.Log("Player has been Teleported");
                     playerIsOverlapping = false;
                     otherPortalScript.playerNotToTeleport = true;
-                    otherPortalScript.PlayerToTeleportDelay = 100;
+                    otherPortalScript.PlayerToTeleportDelay = 50;
                  }
             }
         }
