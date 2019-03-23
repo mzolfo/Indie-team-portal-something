@@ -9,6 +9,7 @@ public class PlayerInteractScript : MonoBehaviour
     private GameObject PlayerCamera;
     [SerializeField]
     private GameObject pickedUpObject;
+    private PickupObjectScript pickedUpObjectScript;
     [SerializeField]
     private Text InteractText;
     
@@ -72,13 +73,13 @@ public class PlayerInteractScript : MonoBehaviour
                     if (pickedUpObject != null)
                     {
                         interactableInRange = true;
-                        InteractText.text = "Press E to Interact";
+                        InteractText.text = "E: Place " + pickedUpObjectScript.name;
                     }
                     else { reachableInteractableObject = null; }
                 }
                 else {
                     interactableInRange = true;
-                    InteractText.text = "Press E to Interact";
+                    InteractText.text = "E: Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().name;
                 }
                 
             }
@@ -104,22 +105,24 @@ public class PlayerInteractScript : MonoBehaviour
         {
             if (pickedUpObject == null)
             {
-                PickUpObject(reachableInteractableObject.GetComponent<PickupObjectScript>());
+                pickedUpObjectScript = reachableInteractableObject.GetComponent<PickupObjectScript>();
+                PickUpObject(pickedUpObjectScript);
+                
             }
         }
         else if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
         {
-            PickupObjectScript pickUpScript = pickedUpObject.GetComponent<PickupObjectScript>();
+             pickedUpObjectScript = pickedUpObject.GetComponent<PickupObjectScript>();
             ContextualPosition targetScript = reachableInteractableObject.GetComponent<ContextualPosition>();
-            if (pickUpScript.myInteractType == PickupObjectScript.InteractType.Diorama)
+            if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
             {
-                pickUpScript.GetAssignedPosition(reachableInteractableObject);
+                pickedUpObjectScript.GetAssignedPosition(reachableInteractableObject);
                 targetScript.AttachToDioramaObject(pickedUpObject);
                 pickedUpObject = null;
                 reachableInteractableObject = null;
                 interactableInRange = false;
             }
-            else if (pickUpScript.myInteractType == PickupObjectScript.InteractType.ContextualPickup)
+            else if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.ContextualPickup)
             {
                 //define the placement of pickups in non diorama positions.
             }

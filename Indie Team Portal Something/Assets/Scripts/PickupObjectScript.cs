@@ -8,7 +8,7 @@ public class PickupObjectScript : MonoBehaviour
     public enum InteractType { Pickup, ContextualPickup, Diorama };
     
     public InteractType myInteractType;
-
+    public string name;
     public int myAssociatedPortal;
     [SerializeField]
     private bool isPickedUp = false;
@@ -22,12 +22,14 @@ public class PickupObjectScript : MonoBehaviour
     [SerializeField]
     private BoxCollider myCollider;
     private Rigidbody myOwnRigidbody;
+    private int startingLayer;
 
     // Start is called before the first frame update
     void Start()
     {
         myOwnRigidbody = GetComponent<Rigidbody>();
         myCollider = GetComponent<BoxCollider>();
+        startingLayer = this.gameObject.layer;
     }
 
     // Update is called once per frame
@@ -53,6 +55,7 @@ public class PickupObjectScript : MonoBehaviour
         isPickedUp = true;
         myCollider.enabled = false;
         myOwnRigidbody.isKinematic = true;
+        this.gameObject.layer = 12;
         this.gameObject.transform.position = pickedUpPosition.position;
         this.gameObject.transform.rotation = pickedUpPosition.rotation;
 
@@ -65,6 +68,7 @@ public class PickupObjectScript : MonoBehaviour
         isPickedUp = false;
         myOwnRigidbody.isKinematic = false;
         myCollider.enabled = true;
+        this.gameObject.layer = startingLayer;
     }
 
     public void GetAssignedPosition(GameObject PositionAssigned)
@@ -75,7 +79,7 @@ public class PickupObjectScript : MonoBehaviour
         this.gameObject.transform.position = pickedUpPosition.position;
         this.gameObject.transform.rotation = pickedUpPosition.rotation;
         myCollider.enabled = true;
-        
+        this.gameObject.layer = startingLayer;
     }
 
 }

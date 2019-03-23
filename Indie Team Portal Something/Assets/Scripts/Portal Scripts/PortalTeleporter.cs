@@ -8,7 +8,7 @@ public class PortalTeleporter : MonoBehaviour
     public Transform player;
     public Transform reciever;
     private Rigidbody playerRigidbody;
-    public RigidbodyFirstPersonController FPC;
+   
 
     public bool playerNotToTeleport;
 
@@ -34,7 +34,7 @@ public class PortalTeleporter : MonoBehaviour
     private void Start()
     {
         playerRigidbody = player.GetComponent<Rigidbody>();
-        FPC = player.GetComponent<RigidbodyFirstPersonController>();
+        
     }
 
     // Update is called once per frame
@@ -63,12 +63,16 @@ public class PortalTeleporter : MonoBehaviour
                     rotationDiff += 180;
                     exposeRotationDiff = rotationDiff;
                     player.Rotate(Vector3.up, rotationDiff);
-                    /*
-                    Vector3 entryDirection = playerRigidbody.velocity.normalized;
-                    float entrySpeed = playerRigidbody.velocity.magnitude;
-                    Vector3 newDirection = new Vector3(-entryDirection.x * 2, entryDirection.y, -entryDirection.z * 2);
-                    playerRigidbody.velocity = newDirection.normalized * entrySpeed;
-                    */
+                    
+                    if (rotationDiff == 180)
+                    {
+                        Vector3 entryDirection = playerRigidbody.velocity.normalized;
+                        float entrySpeed = playerRigidbody.velocity.magnitude;
+                        Vector3 newDirection = new Vector3(-entryDirection.x * 2, entryDirection.y, -entryDirection.z * 2);
+                        playerRigidbody.velocity = newDirection.normalized * entrySpeed;
+                    }
+                    
+                    
                     /*
                entryVector = new Vector3(-entryVector.x, entryVector.y, -entryVector.z);
 
