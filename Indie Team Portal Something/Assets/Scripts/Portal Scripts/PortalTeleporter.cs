@@ -8,7 +8,8 @@ public class PortalTeleporter : MonoBehaviour
     public Transform player;
     public Transform reciever;
     private Rigidbody playerRigidbody;
-   
+
+    
 
     public bool playerNotToTeleport;
 
