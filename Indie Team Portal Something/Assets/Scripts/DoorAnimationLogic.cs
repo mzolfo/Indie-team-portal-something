@@ -10,6 +10,10 @@ public class DoorAnimationLogic : MonoBehaviour
     public State myState;
     [SerializeField]
     private Animator DoorAnimator;
+    [SerializeField]
+    private BoxCollider OpenCollider;
+    [SerializeField]
+    private BoxCollider ClosedCollider;
 
     [SerializeField]
     private GameObject AssociatedPortalColliderPlane;
@@ -44,13 +48,29 @@ public class DoorAnimationLogic : MonoBehaviour
     private void UpdateAnimatorToCurrentState()
     {
         if (myState == State.Closed)
-        { DoorAnimator.SetInteger("State", 0); }
+        {
+            DoorAnimator.SetInteger("State", 0);
+            if (!ClosedCollider.enabled || OpenCollider.enabled)
+            { ClosedCollider.enabled = true; OpenCollider.enabled = false; }
+        }
         else if (myState == State.Opening)
-        { DoorAnimator.SetInteger("State", 1); }
+        {
+            DoorAnimator.SetInteger("State", 1);
+            if (ClosedCollider.enabled || !OpenCollider.enabled)
+            { ClosedCollider.enabled = false; OpenCollider.enabled = true; }
+        }
         else if (myState == State.Open)
-        { DoorAnimator.SetInteger("State", 2); }
+        {
+            DoorAnimator.SetInteger("State", 2);
+            if (ClosedCollider.enabled || !OpenCollider.enabled)
+            { ClosedCollider.enabled = false; OpenCollider.enabled = true; }
+        }
         else if (myState == State.Closing)
-        { DoorAnimator.SetInteger("State", 3); }
+        {
+            DoorAnimator.SetInteger("State", 3);
+            if (!ClosedCollider.enabled || OpenCollider.enabled)
+            { ClosedCollider.enabled = true; OpenCollider.enabled = false; }
+        }
     }
 
     public void Endframe()

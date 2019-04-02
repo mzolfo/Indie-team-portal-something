@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8611989213905659484}
   - component: {fileID: 8611989213906462332}
   - component: {fileID: 8611989213907428540}
+  - component: {fileID: 1769483327454705593}
   m_Layer: 0
   m_Name: ModularWall_1d
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8611989213905173116}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 94.052505, y: 19.9, z: -31.55126}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -77,3 +78,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1769483327454705593
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8611989213905173116}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: f19a6a194c9cb04419a865578c8d1d98, type: 3}
