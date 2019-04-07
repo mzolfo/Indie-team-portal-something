@@ -77,9 +77,14 @@ public class PlayerInteractScript : MonoBehaviour
                     }
                     else { reachableInteractableObject = null; }
                 }
-                else {
+                else if (reachableInteractableObject.GetComponent<PickupObjectScript>() != null)
+                {
                     interactableInRange = true;
                     InteractText.text = "E: Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().name;
+                }
+                else
+                {
+                    interactableInRange = true;
                 }
                 
             }
@@ -107,12 +112,12 @@ public class PlayerInteractScript : MonoBehaviour
             {
                 pickedUpObjectScript = reachableInteractableObject.GetComponent<PickupObjectScript>();
                 PickUpObject(pickedUpObjectScript);
-                
+
             }
         }
         else if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
         {
-             pickedUpObjectScript = pickedUpObject.GetComponent<PickupObjectScript>();
+            pickedUpObjectScript = pickedUpObject.GetComponent<PickupObjectScript>();
             ContextualPosition targetScript = reachableInteractableObject.GetComponent<ContextualPosition>();
             if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
             {
@@ -126,7 +131,11 @@ public class PlayerInteractScript : MonoBehaviour
             {
                 //define the placement of pickups in non diorama positions.
             }
-                
+
+        }
+        else if (reachableInteractableObject.GetComponent<BasicOnOffSwitch>() != null)
+        {
+            reachableInteractableObject.GetComponent<BasicOnOffSwitch>().ToggleActiveStateOfTarget();
         }
         //this only reacts if the interactable is a pickup
     }
