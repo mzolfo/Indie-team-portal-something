@@ -5,7 +5,7 @@ using UnityEngine;
 [SelectionBase]
 public class PickupObjectScript : MonoBehaviour
 {
-    public enum InteractType { Pickup, ContextualPickup, Diorama };
+    public enum InteractType { Pickup, Key, Diorama };
     
     public InteractType myInteractType;
     public string title;
@@ -17,11 +17,11 @@ public class PickupObjectScript : MonoBehaviour
 
     [SerializeField]
     private ContextualPosition myKeyholePosition;
-    public bool isInKeyholePosition = false;
+    
     public Transform playerPickedUpPosition;
     public Transform playerDroppedPosition;
     [SerializeField]
-    private Transform pickedUpPosition;
+    private Transform lockToPosition;
     [SerializeField]
     private BoxCollider myCollider;
     private Rigidbody myOwnRigidbody;
@@ -40,8 +40,8 @@ public class PickupObjectScript : MonoBehaviour
     {
         if (isPickedUp)
         {
-            this.gameObject.transform.position = pickedUpPosition.position;
-            this.gameObject.transform.rotation = pickedUpPosition.rotation;
+            this.gameObject.transform.position = lockToPosition.position;
+            this.gameObject.transform.rotation = lockToPosition.rotation;
         }
     }
 
@@ -49,18 +49,17 @@ public class PickupObjectScript : MonoBehaviour
     {
         if (isInContextualPosition)
         {
-           ContextualPosition positionScript = pickedUpPosition.gameObject.GetComponent<ContextualPosition>();
+           ContextualPosition positionScript = lockToPosition.gameObject.GetComponent<ContextualPosition>();
             positionScript.DetachToDioramaObject();
-
         }
-        pickedUpPosition = playerPickedUpPosition;
+        lockToPosition = playerPickedUpPosition;
         isInContextualPosition = false;
         isPickedUp = true;
         myCollider.enabled = false;
         myOwnRigidbody.isKinematic = true;
         this.gameObject.layer = 12;
-        this.gameObject.transform.position = pickedUpPosition.position;
-        this.gameObject.transform.rotation = pickedUpPosition.rotation;
+        this.gameObject.transform.position = lockToPosition.position;
+        this.gameObject.transform.rotation = lockToPosition.rotation;
 
     }
 
@@ -78,25 +77,18 @@ public class PickupObjectScript : MonoBehaviour
     {
         isInContextualPosition = true;
         isPickedUp = true;
-        pickedUpPosition = PositionAssigned.transform;
-        this.gameObject.transform.position = pickedUpPosition.position;
-        this.gameObject.transform.rotation = pickedUpPosition.rotation;
+        lockToPosition = PositionAssigned.transform;
+        this.gameObject.transform.position = lockToPosition.position;
+        this.gameObject.transform.rotation = lockToPosition.rotation;
         myCollider.enabled = true;
         this.gameObject.layer = startingLayer;
     }
 
-    public bool CheckIfObjectBelongsInContextualPosition(GameObject AttemptedPosition)
+    public void AttachToKeyPosition()
     {
-        if (AttemptedPosition.GetComponent<ContextualPosition>() == myKeyholePosition)
-        {
-            isPickedUp = false;
-            GetAssignedPosition(AttemptedPosition);
-            myCollider.enabled = false;
-            isInKeyholePosition = true;
-            return true;
-        }
-        else
-        { return false; }
+        lockToPosition.position = new Vector3(lockToPosition.position.x, lockToPosition.position.y, lockToPosition.position.z);
+        myCollider.enabled = false;
     }
+   
 
 }

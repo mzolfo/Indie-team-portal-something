@@ -7,7 +7,7 @@ public class LibraryMazeShelf : MonoBehaviour
 
     [SerializeField]
     private ContextualPosition myContextualPosition;
-    private bool animationHasBegun;
+    private bool animationHasBegun = false;
     private Animator myAnimator;
 
     // Start is called before the first frame update

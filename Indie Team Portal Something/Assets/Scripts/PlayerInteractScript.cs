@@ -20,7 +20,7 @@ public class PlayerInteractScript : MonoBehaviour
     [SerializeField]
     private Transform playerDroppedPosition;
 
-    private Transform logTransformMess;
+    
 
     [SerializeField]
     private GameObject reachableInteractableObject;
@@ -62,36 +62,19 @@ public class PlayerInteractScript : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 4))
         {
-            Debug.DrawLine(PlayerCamera.transform.position, hit.point, Color.red, 1);
-            if (hit.transform.gameObject.tag == "Interactable")
+            Debug.DrawLine(PlayerCamera.transform.position, hit.point, Color.red, 1); //cast a ray to see if we hit something
+            if (hit.transform.gameObject.tag == "Interactable") //if we did and it is an interactable
             {
-                reachableInteractableObject = hit.transform.gameObject;
-                if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
+                reachableInteractableObject = hit.transform.gameObject; //collect it to be analyzed
+                if (CheckIfInteractableIsContextualPosition()) //if it was a contextual position this will deal with it if not
+                    //it will return false and pass to the next else if
                 {
-                    if (pickedUpObject != null)
-                    {
-                        if (reachableInteractableObject.GetComponent<ContextualPosition>().isKeyholePosition && pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.ContextualPickup)
-                        {
-                            interactableInRange = true;
-                            InteractText.text = "E: Place " + pickedUpObjectScript.title;
-                        }
-                        else if (!reachableInteractableObject.GetComponent<ContextualPosition>().isKeyholePosition && pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
-                        {
-                            interactableInRange = true;
-                            InteractText.text = "E: Place " + pickedUpObjectScript.title;
-                        }
-                    }
-                    else { reachableInteractableObject = null; }
+                    return;
                 }
-                else if (reachableInteractableObject.GetComponent<PickupObjectScript>() != null)
+                else if (CheckIfInteractabeIsPickupObject())//if it was a pickup Object this will deal with it if not
+                                                            //it will return false and pass to the next else if
                 {
-                    if (pickedUpObject != null)
-                    {
-                        interactableInRange = false;
-                        InteractText.text = "you are already holding the " + pickedUpObjectScript.title;
-                    }
-                    interactableInRange = true;
-                    InteractText.text = "E: Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().title;
+                    return;
                 }
                 else
                 {
@@ -101,19 +84,75 @@ public class PlayerInteractScript : MonoBehaviour
             }
             else
             {
-                reachableInteractableObject = null;
-                interactableInRange = false;
-                InteractText.text = "";
+                InstructInteractableCannotBeInteractedWith();
             }
         }
         else
         {
-            reachableInteractableObject = null;
-            interactableInRange = false;
-            InteractText.text = "";
+            InstructInteractableCannotBeInteractedWith();
         }
     }
 
+    private bool CheckIfInteractableIsContextualPosition()
+    {
+        if (reachableInteractableObject.GetComponent<ContextualPosition>() != null) //check if it is a contextualposition
+        { //if so check if you are holding something
+            if (pickedUpObject != null)
+            { //we dont want what follows as is. 
+                if (CheckIfObjectCanBePlaced())
+                {
+                    InstructCanPlaceObject();
+                }
+                else { InstructCannotPlaceObject(); }
+            }
+            else { reachableInteractableObject = null; } //if not you cant interact with it
+            return true;
+        }
+        else { return false; }
+
+    }
+
+    private bool CheckIfObjectCanBePlaced()
+    {
+        ContextualPosition TargetScript = reachableInteractableObject.GetComponent<ContextualPosition>();
+        if (TargetScript.myPositionType == ContextualPosition.ContextualPositionType.Keyhole)
+        {
+            if (TargetScript.myAssignedObject == pickedUpObject)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+        else if (TargetScript.myPositionType == ContextualPosition.ContextualPositionType.Diorama)
+        {
+            if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+        else { return false; }
+        
+    }
+
+    private bool CheckIfInteractabeIsPickupObject()
+    {
+        if (reachableInteractableObject.GetComponent<PickupObjectScript>() != null)
+        {
+            if (pickedUpObject != null)
+            {
+                InstructHandsAreFull();
+            }
+            else
+            {
+                interactableInRange = true;
+                InteractText.text = "E: Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().title;
+            }
+            return true;
+        }
+        else { return false; }
+    }
+    
     void AttemptToInteract()
     {
 
@@ -123,43 +162,37 @@ public class PlayerInteractScript : MonoBehaviour
             {
                 pickedUpObjectScript = reachableInteractableObject.GetComponent<PickupObjectScript>();
                 PickUpObject(pickedUpObjectScript);
-
             }
             
         }
         else if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
         {
-            pickedUpObjectScript = pickedUpObject.GetComponent<PickupObjectScript>();
-            ContextualPosition targetScript = reachableInteractableObject.GetComponent<ContextualPosition>();
-            if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
+            if (pickedUpObject != null)
             {
-                pickedUpObjectScript.GetAssignedPosition(reachableInteractableObject);
-                targetScript.AttachToDioramaObject(pickedUpObject);
-                pickedUpObject = null;
-                reachableInteractableObject = null;
-                interactableInRange = false;
-            }
-            else if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.ContextualPickup)
-            {
-                //define the placement of pickups in non diorama positions.
-                if (pickedUpObjectScript.CheckIfObjectBelongsInContextualPosition(reachableInteractableObject))
+                if (CheckIfObjectCanBePlaced())
                 {
+                    pickedUpObjectScript.GetAssignedPosition(reachableInteractableObject);
+                    if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
+                    {
+                        reachableInteractableObject.GetComponent<ContextualPosition>().AttachToDioramaObject(pickedUpObject);
+                    }
+                    else if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Key)
+                    {
+                        reachableInteractableObject.GetComponent<ContextualPosition>().AttachToKeyObject(pickedUpObject);
+                    }
                     pickedUpObject = null;
-                }
-                else
-                {
-                    InteractText.text = "That Doesn't go there.";
+                    reachableInteractableObject = null;
+                    interactableInRange = false;
                 }
             }
-
         }
         else if (reachableInteractableObject.GetComponent<BasicOnOffSwitch>() != null)
         {
             reachableInteractableObject.GetComponent<BasicOnOffSwitch>().ToggleActiveStateOfTarget();
         }
         //this only reacts if the interactable is a pickup
+        
     }
-
 
     void PickUpObject(PickupObjectScript target)
     {
@@ -173,13 +206,33 @@ public class PlayerInteractScript : MonoBehaviour
 
     void DropPickedUpObject(PickupObjectScript target)
     {
-        //logTransformMess = this.transform;
         target.GetDropped();
-        pickedUpObject = null;
-
-        //this.transform.position = logTransformMess.position;
-        //this.transform.rotation = logTransformMess.rotation;
+        pickedUpObject = null; 
     }
-    
+
+    void InstructInteractableCannotBeInteractedWith()
+    {
+        reachableInteractableObject = null;
+        interactableInRange = false;
+        InteractText.text = "";
+    }
+
+    void InstructCannotPlaceObject()
+    {
+        interactableInRange = false;
+        InteractText.text = "That doesn't go there.";
+    }
+
+    void InstructCanPlaceObject()
+    {
+        interactableInRange = true;
+        InteractText.text = "E: Place " + pickedUpObjectScript.title;
+    }
+
+    void InstructHandsAreFull()
+    {
+        interactableInRange = false;
+        InteractText.text = "you are already holding the " + pickedUpObjectScript.title;
+    }
 
 }
