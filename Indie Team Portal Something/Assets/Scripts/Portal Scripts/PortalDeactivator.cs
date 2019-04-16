@@ -31,9 +31,10 @@ public class PortalDeactivator : MonoBehaviour
     public void ActivateTargetPortal(int Target)
     {
         IdentifyPortalFeatures(Target);
-       
-            targetRenderPlane.SetActive(true);
-            Debug.Log("Portal Number: " + Target + " has been activated.");
+
+        //targetRenderPlane.SetActive(true);
+        targetRenderPlane.GetComponent<CullingForRenderPlanes>().portalIsActive = true;
+        Debug.Log("Portal Number: " + Target + " has been activated.");
         
             targetColliderPlane.SetActive(true);
         
@@ -43,8 +44,10 @@ public class PortalDeactivator : MonoBehaviour
     public void DeactivateTargetPortal(int Target)
     {
         IdentifyPortalFeatures(Target);
-       
-            targetRenderPlane.SetActive(false);
+
+        //targetRenderPlane.SetActive(false);
+        targetRenderPlane.GetComponent<CullingForRenderPlanes>().portalIsActive = false;
+
             Debug.Log("Portal Number: " + Target + " has been deactivated.");
             targetColliderPlane.SetActive(false);
        

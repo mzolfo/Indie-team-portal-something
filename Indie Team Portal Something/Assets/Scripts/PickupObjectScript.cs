@@ -8,13 +8,16 @@ public class PickupObjectScript : MonoBehaviour
     public enum InteractType { Pickup, ContextualPickup, Diorama };
     
     public InteractType myInteractType;
-    public string name;
+    public string title;
     public int myAssociatedPortal;
     [SerializeField]
     private bool isPickedUp = false;
     [SerializeField]
     private bool isInContextualPosition = false;
 
+    [SerializeField]
+    private ContextualPosition myKeyholePosition;
+    public bool isInKeyholePosition = false;
     public Transform playerPickedUpPosition;
     public Transform playerDroppedPosition;
     [SerializeField]
@@ -80,6 +83,20 @@ public class PickupObjectScript : MonoBehaviour
         this.gameObject.transform.rotation = pickedUpPosition.rotation;
         myCollider.enabled = true;
         this.gameObject.layer = startingLayer;
+    }
+
+    public bool CheckIfObjectBelongsInContextualPosition(GameObject AttemptedPosition)
+    {
+        if (AttemptedPosition.GetComponent<ContextualPosition>() == myKeyholePosition)
+        {
+            isPickedUp = false;
+            GetAssignedPosition(AttemptedPosition);
+            myCollider.enabled = false;
+            isInKeyholePosition = true;
+            return true;
+        }
+        else
+        { return false; }
     }
 
 }

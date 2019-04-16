@@ -23,15 +23,46 @@ public class PortalCamera : MonoBehaviour
     [SerializeField]
     private Vector3 newCameraDirection;
 
+    private Camera myOwnCamera;
+
     //run the same offset script with an edit depending on the connected portal's rotation.
     //if one's own portal is of a y rotation of 0 then check the other portal's y rotation and defer to its instruction
 
-
+    private void Start()
+    {
+        myOwnCamera = GetComponent<Camera>();
+    }
     // Update is called once per frame
     void LateUpdate()
     {
-        CheckOffsetShiftByPortalRotations();
-        OffsetTransformDependentOnPortalARotation();
+        if (CheckRenderplaneIsTracking())
+        {
+            CheckOffsetShiftByPortalRotations();
+            OffsetTransformDependentOnPortalARotation();
+        }
+        
+    }
+
+    private bool CheckRenderplaneIsTracking()
+    {
+        if (otherPortal.GetComponent<GobetweenCulling>().renderPlaneIsActive)
+        {
+            if (myOwnCamera.enabled)
+            { return true; }
+            else { myOwnCamera.enabled = true; return true; }
+        }
+        else
+        {
+            if (myOwnCamera.enabled)
+            {
+                myOwnCamera.enabled = false;
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
     void CheckOffsetShiftByPortalRotations()

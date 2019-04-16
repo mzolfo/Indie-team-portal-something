@@ -14,7 +14,7 @@ public class PlayerInteractScript : MonoBehaviour
     private Text InteractText;
     
 
-
+    private bool keyInPosition;
     [SerializeField]
     private Transform playerPickedUpPosition;
     [SerializeField]
@@ -39,7 +39,7 @@ public class PlayerInteractScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
         CheckIfInteractableIsInRange();
         if (Input.GetButtonDown("Interact"))
         {
@@ -59,8 +59,6 @@ public class PlayerInteractScript : MonoBehaviour
 
     void CheckIfInteractableIsInRange()
     {
-       
-
         RaycastHit hit;
         if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, 4))
         {
@@ -72,15 +70,28 @@ public class PlayerInteractScript : MonoBehaviour
                 {
                     if (pickedUpObject != null)
                     {
-                        interactableInRange = true;
-                        InteractText.text = "E: Place " + pickedUpObjectScript.name;
+                        if (reachableInteractableObject.GetComponent<ContextualPosition>().isKeyholePosition && pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.ContextualPickup)
+                        {
+                            interactableInRange = true;
+                            InteractText.text = "E: Place " + pickedUpObjectScript.title;
+                        }
+                        else if (!reachableInteractableObject.GetComponent<ContextualPosition>().isKeyholePosition && pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
+                        {
+                            interactableInRange = true;
+                            InteractText.text = "E: Place " + pickedUpObjectScript.title;
+                        }
                     }
                     else { reachableInteractableObject = null; }
                 }
                 else if (reachableInteractableObject.GetComponent<PickupObjectScript>() != null)
                 {
+                    if (pickedUpObject != null)
+                    {
+                        interactableInRange = false;
+                        InteractText.text = "you are already holding the " + pickedUpObjectScript.title;
+                    }
                     interactableInRange = true;
-                    InteractText.text = "E: Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().name;
+                    InteractText.text = "E: Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().title;
                 }
                 else
                 {
@@ -114,6 +125,7 @@ public class PlayerInteractScript : MonoBehaviour
                 PickUpObject(pickedUpObjectScript);
 
             }
+            
         }
         else if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
         {
@@ -130,6 +142,14 @@ public class PlayerInteractScript : MonoBehaviour
             else if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.ContextualPickup)
             {
                 //define the placement of pickups in non diorama positions.
+                if (pickedUpObjectScript.CheckIfObjectBelongsInContextualPosition(reachableInteractableObject))
+                {
+                    pickedUpObject = null;
+                }
+                else
+                {
+                    InteractText.text = "That Doesn't go there.";
+                }
             }
 
         }

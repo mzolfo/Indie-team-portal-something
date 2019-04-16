@@ -9,7 +9,9 @@ public class ContextualPosition : MonoBehaviour
     private int myOwnPortal;
     [SerializeField]
     private PortalSwitcher portalSwitchManager;
-
+   
+    public bool isKeyholePosition;
+    public bool keyInPlace;
     private GameObject myAssignedObject;
     private BoxCollider myOwnCollider;
 
@@ -38,7 +40,16 @@ public class ContextualPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (isKeyholePosition)
+        {
+            if (myAssignedObject != null)
+            {
+                if (myAssignedObject.GetComponent<PickupObjectScript>().isInKeyholePosition)
+                {
+                    keyInPlace = true;
+                }
+            }
+        }
     }
 
     void attachObjectOnStart()
@@ -71,8 +82,10 @@ public class ContextualPosition : MonoBehaviour
         myOwnCollider.enabled = true;
     }
 
-    public void AttachToNonDioramaObject()
+    public void AttachToNonDioramaObject(GameObject Target)
     {
-
+        myAssignedObject = Target;
+        PickupObjectScript targetScript = Target.GetComponent<PickupObjectScript>();
+        myOwnCollider.enabled = false;
     }
 }
