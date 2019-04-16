@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CullingForRenderPlanes : MonoBehaviour
 {
+    
     public bool portalIsActive; //check if this is supposed to be on
     private BoxCollider myOwnCollider;
     [SerializeField]
@@ -12,7 +13,7 @@ public class CullingForRenderPlanes : MonoBehaviour
     private bool isFacedByPlayerCamera;
     private GameObject player;
     [SerializeField]
-    private bool isGrandhallPortal;
+    private CurrentRoom myRoom;
     private CurrentRoomCheck PlayerInGrandHallTracker;
     private MeshRenderer myMeshRenderer;
     public bool renderPlaneIsActive;
@@ -35,22 +36,11 @@ public class CullingForRenderPlanes : MonoBehaviour
         CheckIsFacedByPlayerCamera();
         if (isFacedByPlayerCamera && portalIsActive)
         {
-            if (isGrandhallPortal && PlayerInGrandHallTracker.isInGrandHall)
+            if (PlayerInGrandHallTracker.myCurrentRoom == myRoom)
             {
                 TurnOnIfInactive();
             }
-            else if (isGrandhallPortal && !PlayerInGrandHallTracker.isInGrandHall)
-            {
-                TurnOffIfActive();
-            }
-            else if (!isGrandhallPortal && PlayerInGrandHallTracker.isInGrandHall)
-            {
-                TurnOffIfActive();
-            }
-            else if (!isGrandhallPortal && !PlayerInGrandHallTracker.isInGrandHall)
-            {
-                TurnOnIfInactive();
-            }
+            else { TurnOffIfActive(); }
 
         }
         else

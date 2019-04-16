@@ -8,9 +8,7 @@ public class PortalTeleporter : MonoBehaviour
     public Transform player;
     public Transform reciever;
     private Rigidbody playerRigidbody;
-    private CurrentRoomCheck PlayerCurrentRoomTracker;
     
-
     public bool playerNotToTeleport;
 
     [SerializeField]
@@ -35,7 +33,6 @@ public class PortalTeleporter : MonoBehaviour
     private void Start()
     {
         playerRigidbody = player.GetComponent<Rigidbody>();
-        PlayerCurrentRoomTracker = player.GetComponent<CurrentRoomCheck>();
     }
 
     // Update is called once per frame
@@ -82,7 +79,7 @@ public class PortalTeleporter : MonoBehaviour
                     Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * portalToPlayer;
                     player.position = reciever.position + positionOffset;
                     Debug.Log("Player has been Teleported");
-                    PlayerCurrentRoomTracker.TogglePlayerinGrandHall();
+                   
                     playerIsOverlapping = false;
                     otherPortalScript.playerNotToTeleport = true;
                     otherPortalScript.PlayerToTeleportDelay = 50;
