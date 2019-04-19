@@ -1,14 +1,16 @@
 fileFormatVersion: 2
-guid: f0b5809e9409d194bbd7c9799c6f8298
+guid: 72f51dec0af4b164985af3140d69457a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: lambert1
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: LibraryTest
+    100000: pasted__stool4
+    100002: //RootNode
+    400000: pasted__stool4
+    400002: //RootNode
+    2100000: pasted__stool
+    2300000: pasted__stool4
+    3300000: pasted__stool4
+    4300000: pasted__stool4
   externalObjects: {}
   materials:
     importMaterials: 1

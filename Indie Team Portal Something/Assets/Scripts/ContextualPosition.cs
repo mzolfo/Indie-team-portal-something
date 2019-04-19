@@ -10,8 +10,8 @@ public class ContextualPosition : MonoBehaviour
     private int myOwnPortal;
     [SerializeField]
     private PortalSwitcher portalSwitchManager;
-   
-    public bool isKeyholePosition;
+    [SerializeField]
+    private GameObject MyHelpLight;
     public bool keyInPlace;
     public GameObject myAssignedObject;
     private BoxCollider myOwnCollider;
@@ -80,5 +80,9 @@ public class ContextualPosition : MonoBehaviour
         PickupObjectScript targetScript = Target.GetComponent<PickupObjectScript>();
         myOwnCollider.enabled = false;
         keyInPlace = true;
+        if (MyHelpLight != null)
+        {
+            MyHelpLight.SetActive(false);
+        }
     }
 }

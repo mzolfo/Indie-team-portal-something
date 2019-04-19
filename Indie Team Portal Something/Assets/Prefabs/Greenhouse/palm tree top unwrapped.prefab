@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4206666490795071616}
   - component: {fileID: 4206666490794301600}
   - component: {fileID: 4206666490793171552}
+  - component: {fileID: 541507109}
   m_Layer: 0
   m_Name: palm tree base
   m_TagString: Untagged
@@ -57,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00b056220b3f7374c95df9304abc3bea, type: 2}
+  - {fileID: 2100000, guid: 4f1e7209e5a8d344aba0f22793ccd7d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,6 +78,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!65 &541507109
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4206666490795426976}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 30.336231, y: 116.83633, z: 19.808352}
+  m_Center: {x: -5.654528, y: 7.2718444, z: -0.00012223884}
 --- !u!1 &4206666491131595748
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100022, guid: 13c0fb0ba5da1714095c795e93d90fe9, type: 3}
+  - {fileID: 2100000, guid: 22aad46d9898d2046ac7e42ea3ded740, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -331,9 +345,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4206666491131595754}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.2634, y: -0.25945, z: -19.72}
-  m_LocalScale: {x: 0.00977683, y: 0.00977683, z: 0.00977683}
+  m_LocalScale: {x: 0.00978, y: 0.00978, z: 0.00978}
   m_Children:
   - {fileID: 4206666490795071616}
   - {fileID: 4206666491132090320}
