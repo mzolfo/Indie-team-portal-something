@@ -5,8 +5,8 @@ using UnityEngine;
 public class BasicOnOffSwitch : MonoBehaviour
 {
     [SerializeField]
-    private GameObject ObjectToBeManipulated;
-    //make this a list and make the stuff below work with lists.
+    private List<GameObject> ObjectsToBeManipulated;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +21,10 @@ public class BasicOnOffSwitch : MonoBehaviour
 
     public void ToggleActiveStateOfTarget()
     {
-        if (ObjectToBeManipulated.activeInHierarchy)
+        foreach (GameObject g in ObjectsToBeManipulated)
         {
-            ObjectToBeManipulated.SetActive(false);
+            if (g.activeInHierarchy) { g.SetActive(false); }
+            else { g.SetActive(true); }
         }
-        else { ObjectToBeManipulated.SetActive(true); }
     }
 }
