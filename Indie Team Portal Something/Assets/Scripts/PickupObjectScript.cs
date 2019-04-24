@@ -9,7 +9,7 @@ public class PickupObjectScript : MonoBehaviour
     
     public InteractType myInteractType;
     public string title;
-    public int myAssociatedPortal;
+    public AssociatedPortalData myownAssociatedPortals;
     [SerializeField]
     private bool isPickedUp = false;
     [SerializeField]
@@ -33,6 +33,10 @@ public class PickupObjectScript : MonoBehaviour
         myOwnRigidbody = GetComponent<Rigidbody>();
         myCollider = GetComponent<BoxCollider>();
         startingLayer = this.gameObject.layer;
+        if (myInteractType == InteractType.Diorama)
+        {
+            myownAssociatedPortals = GetComponent<AssociatedPortalData>();
+        }
     }
 
     // Update is called once per frame

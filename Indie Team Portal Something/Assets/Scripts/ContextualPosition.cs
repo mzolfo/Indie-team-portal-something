@@ -6,16 +6,14 @@ public class ContextualPosition : MonoBehaviour
 {
     public enum ContextualPositionType { Keyhole, Diorama }
     public ContextualPositionType myPositionType;
-    [SerializeField]
-    private int myOwnPortal;
-    [SerializeField]
-    private PortalSwitcher portalSwitchManager;
+    private AssociatedPortalData myAssociatedPortals;
     [SerializeField]
     private GameObject MyHelpLight;
     public bool keyInPlace;
     public GameObject myAssignedObject;
     private BoxCollider myOwnCollider;
-
+    [SerializeField]
+    private PlacedDioramaPortalManager DioramaPortalManager;
     [SerializeField]
     private bool hasObjectToStart = false;
     [SerializeField]
@@ -31,17 +29,22 @@ public class ContextualPosition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myOwnCollider = GetComponent<BoxCollider>();
-        if (hasObjectToStart)
+        if (myPositionType == ContextualPositionType.Diorama)
         {
-            attachObjectOnStart();
+            myAssociatedPortals = GetComponent<AssociatedPortalData>();
         }
+
+        myOwnCollider = GetComponent<BoxCollider>();
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        if (hasObjectToStart)
+        {
+            attachObjectOnStart();
+        }
     }
 
     void attachObjectOnStart()
@@ -55,6 +58,7 @@ public class ContextualPosition : MonoBehaviour
             AttachToDioramaObject(startObject);
             PickupObjectScript targetScript = startObject.GetComponent<PickupObjectScript>();
             targetScript.GetAssignedPosition(this.gameObject);
+            hasObjectToStart = false;
         }
     }
 
@@ -62,15 +66,16 @@ public class ContextualPosition : MonoBehaviour
     {
         myAssignedObject = Target;
         PickupObjectScript targetScript = Target.GetComponent<PickupObjectScript>();
-        portalSwitchManager.BeginSwitch(myOwnPortal, targetScript.myAssociatedPortal);
+        targetScript.myownAssociatedPortals.myPosition = myAssociatedPortals.myPosition;
+        DioramaPortalManager.CheckDioramaPlaced(myAssociatedPortals, targetScript.myownAssociatedPortals);
         myOwnCollider.enabled = false;
     }
     public void DetachToDioramaObject()
     {
         PickupObjectScript targetScript = myAssignedObject.GetComponent<PickupObjectScript>();
-        portalSwitchManager.RevertPortal(targetScript.myAssociatedPortal);
+        DioramaPortalManager.CheckDioramaRemoved(myAssociatedPortals, targetScript.myownAssociatedPortals);
+        targetScript.myownAssociatedPortals.myPosition = 0;
         myAssignedObject = null;
-        portalSwitchManager.RevertPortal(myOwnPortal);
         myOwnCollider.enabled = true;
     }
 
@@ -84,5 +89,10 @@ public class ContextualPosition : MonoBehaviour
         {
             MyHelpLight.SetActive(false);
         }
+    }
+
+    public AssociatedPortalData GetAttachedObjectPortalData()
+    {
+        return myAssignedObject.GetComponent<PickupObjectScript>().myownAssociatedPortals;
     }
 }
