@@ -132,7 +132,7 @@ public class PortalSwitcher : MonoBehaviour
         //set a portal's current and target dest to 0 and deactivate it.
         deactivatorScript.DeactivateTargetPortal(RevertTarget);
         portalRevertDest = 0;
-
+        portalCameras[RevertTarget - 1].otherPortal = portalTransforms[13];
         portalTargetDest[RevertTarget - 1] = 0;
         portalCurrentDest[RevertTarget - 1] = 0;
     }

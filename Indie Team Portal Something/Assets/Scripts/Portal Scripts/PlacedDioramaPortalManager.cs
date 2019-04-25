@@ -88,32 +88,32 @@ public class PlacedDioramaPortalManager : MonoBehaviour
     {
         if (PositionData.upStairs != 0)
         {
-            portalSwitchDeactivator.DeactivateTargetPortal(PositionData.upStairs);
+            worldPortalSwitcher.RevertPortal(PositionData.upStairs);            
         }
         if (PositionData.downStairs != 0)
         {
-            portalSwitchDeactivator.DeactivateTargetPortal(PositionData.downStairs);
+            worldPortalSwitcher.RevertPortal(PositionData.downStairs);
         }
         if (DioramaData.upStairs != 0)
         {
-            portalSwitchDeactivator.DeactivateTargetPortal(DioramaData.upStairs);
+            worldPortalSwitcher.RevertPortal(DioramaData.upStairs);
         }
         if (DioramaData.downStairs != 0)
         {
-            portalSwitchDeactivator.DeactivateTargetPortal(DioramaData.downStairs);
+            worldPortalSwitcher.RevertPortal(DioramaData.downStairs);
         }
         if (DioramaData.leftSide != 0)
         {
-            portalSwitchDeactivator.DeactivateTargetPortal(DioramaData.leftSide);
+            worldPortalSwitcher.RevertPortal(DioramaData.leftSide);
         }
         if (DioramaData.rightSide != 0)
         {
-            portalSwitchDeactivator.DeactivateTargetPortal(DioramaData.rightSide);
+            worldPortalSwitcher.RevertPortal(DioramaData.rightSide);
         }
 
         if (CheckSideDioramaNeedsAction(PositionData, DioramaData))
         {
-            portalSwitchDeactivator.DeactivateTargetPortal(foundAdjacentSidePortal);
+            worldPortalSwitcher.RevertPortal(foundAdjacentSidePortal);
             foundAdjacentSidePortal = 0;
             rightToLeft = false;
         }
