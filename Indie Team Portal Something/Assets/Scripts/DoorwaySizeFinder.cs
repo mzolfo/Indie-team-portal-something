@@ -12,6 +12,8 @@ public class DoorwaySizeFinder : MonoBehaviour
     private Vector3 raycastLeftHit;
     [SerializeField]
     private Vector3 raycastRightHit;
+    [SerializeField]
+    private bool revolve90;
 
     private float upDownDistance;
     private float rightLeftDistance;
@@ -20,8 +22,8 @@ public class DoorwaySizeFinder : MonoBehaviour
     private float ydist;
     [SerializeField]
     private float zdist;
-    //[SerializeField]
-    //private float xdist;
+    [SerializeField]
+    private float xdist;
 
     private Transform myOwnLocation;
     //eventually we want to resize the environment so that the doorway is exactly the same size and its origin is at the same
@@ -47,6 +49,29 @@ public class DoorwaySizeFinder : MonoBehaviour
     void FindDistanceLeftAndRight()
     {
         RaycastHit hit;
+        if (revolve90)
+        {
+
+            if (Physics.Raycast(myOwnLocation.position, new Vector3(1, 0, 0), out hit)) //if it hits anything
+            {
+                Debug.DrawLine(myOwnLocation.transform.position, hit.point, Color.red, 1);
+                raycastLeftHit = hit.point;
+            }
+
+            if (Physics.Raycast(myOwnLocation.position, new Vector3(-1, 0, 0), out hit)) //if it hits anything
+            {
+                Debug.DrawLine(myOwnLocation.transform.position, hit.point, Color.red, 1);
+                raycastRightHit = hit.point;
+            }
+
+            if (raycastLeftHit != null && raycastRightHit != null)
+            {
+                FindAverageDistanceAndCenterPoint(raycastLeftHit, raycastRightHit);
+            }
+        }
+        else
+        { 
+
         if (Physics.Raycast(myOwnLocation.position, new Vector3(0, 0, 1), out hit)) //if it hits anything
         {
             Debug.DrawLine(myOwnLocation.transform.position, hit.point, Color.red, 1);
@@ -62,6 +87,7 @@ public class DoorwaySizeFinder : MonoBehaviour
         if (raycastLeftHit != null && raycastRightHit != null)
         {
             FindAverageDistanceAndCenterPoint(raycastLeftHit, raycastRightHit);
+        }
         }
     }
 
@@ -93,7 +119,15 @@ public class DoorwaySizeFinder : MonoBehaviour
         float zave;
         float xave;
         ydist = Mathf.Abs(raycastUpHit.y - raycastDownHit.y);
-        zdist = Mathf.Abs(raycastLeftHit.z - raycastRightHit.z);
+        if (!revolve90)
+        {
+            zdist = Mathf.Abs(raycastLeftHit.z - raycastRightHit.z);
+        }
+        else
+        {
+            xdist = Mathf.Abs(raycastLeftHit.x - raycastRightHit.x);
+        }
+
         //xdist = Mathf.Abs(SecondEnd.x - firstEnd.x);
         //avg formula larger + smaller /2 = avg
         //dist formula larger - smaller = dist

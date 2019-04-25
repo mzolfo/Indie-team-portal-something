@@ -67,6 +67,9 @@ public class PortalCamera : MonoBehaviour
 
     void CheckOffsetShiftByPortalRotations()
     {
+        RotationOfPortalA = portal.rotation.eulerAngles.y - otherPortal.rotation.eulerAngles.y;
+        RotationOfPortalA = Mathf.Abs(RotationOfPortalA);
+        /*
         //if your own rotation is not 0 you are camera A, if it is you may be camera b, if both are 0 it doesnt matter.
         if (portal.rotation.eulerAngles.y == 0)
         {
@@ -85,6 +88,7 @@ public class PortalCamera : MonoBehaviour
             RotationOfPortalA = portal.rotation.eulerAngles.y;
             isCameraA = true;
         }
+        */
     }
 
     void OffsetTransformDependentOnPortalARotation()
