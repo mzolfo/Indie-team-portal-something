@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class DoorAnimationLogic : MonoBehaviour
 {
 

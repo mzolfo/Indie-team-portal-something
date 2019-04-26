@@ -12,7 +12,9 @@ public class PlayerInteractScript : MonoBehaviour
     private PickupObjectScript pickedUpObjectScript;
     [SerializeField]
     private Text InteractText;
-    
+    [SerializeField]
+    private Text dropInstruct;
+    private int timesDropped;
 
     private bool keyInPosition;
     [SerializeField]
@@ -39,22 +41,25 @@ public class PlayerInteractScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        CheckIfInteractableIsInRange();
-        if (Input.GetButtonDown("Interact"))
+        if (!PauseAndMenuLogic.Paused)
         {
-            if (interactableInRange)
-            { AttemptToInteract(); }
-            
-        }
-
-        if (Input.GetButtonDown("Drop"))
-        {
-            if (pickedUpObject != null)
+            CheckIfInteractableIsInRange();
+            if (Input.GetButtonDown("Interact"))
             {
-                DropPickedUpObject(pickedUpObject.GetComponent<PickupObjectScript>());
+                if (interactableInRange)
+                { AttemptToInteract(); }
+
+            }
+
+            if (Input.GetButtonDown("Drop"))
+            {
+                if (pickedUpObject != null)
+                {
+                    DropPickedUpObject(pickedUpObject.GetComponent<PickupObjectScript>());
+                }
             }
         }
+       
     }
 
     void CheckIfInteractableIsInRange()
@@ -67,13 +72,19 @@ public class PlayerInteractScript : MonoBehaviour
             {
                 reachableInteractableObject = hit.transform.gameObject; //collect it to be analyzed
                 if (CheckIfInteractableIsContextualPosition()) //if it was a contextual position this will deal with it if not
-                    //it will return false and pass to the next else if
+                                                               //it will return false and pass to the next else if
                 {
                     return;
                 }
                 else if (CheckIfInteractabeIsPickupObject())//if it was a pickup Object this will deal with it if not
                                                             //it will return false and pass to the next else if
                 {
+                    return;
+                }
+                else if (reachableInteractableObject.GetComponent<BasicOnOffSwitch>() != null)
+                {
+                    InteractText.text = "Toggle the Forcefield.";
+                    interactableInRange = true;
                     return;
                 }
                 else
@@ -197,6 +208,10 @@ public class PlayerInteractScript : MonoBehaviour
     void PickUpObject(PickupObjectScript target)
     {
         //if the object is a pickup and there is no pickup in hand then pick it up.
+        if (timesDropped <= 3)
+        {
+            dropInstruct.text = "Press Q to Drop the Item.";
+        }
         pickedUpObject = reachableInteractableObject;
         target.playerPickedUpPosition = playerPickedUpPosition;
         target.playerDroppedPosition = playerDroppedPosition;
@@ -207,6 +222,8 @@ public class PlayerInteractScript : MonoBehaviour
     void DropPickedUpObject(PickupObjectScript target)
     {
         target.GetDropped();
+        dropInstruct.text = "";
+        timesDropped++;
         pickedUpObject = null; 
     }
 

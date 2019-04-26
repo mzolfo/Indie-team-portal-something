@@ -26,8 +26,8 @@ public class CameraMotion : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        yRotationOffset = PlayerTransform.eulerAngles.y;
+        if (!PauseAndMenuLogic.Paused)
+        { yRotationOffset = PlayerTransform.eulerAngles.y;
             yaw += speedH * Input.GetAxis("Mouse X");
             pitch -= speedV * Input.GetAxis("Mouse Y");
             
@@ -41,7 +41,8 @@ public class CameraMotion : MonoBehaviour {
             }
 
             transform.eulerAngles = new Vector3(pitch, yaw + yRotationOffset, 0.0f);
-        UpdateCursorLock();
+        UpdateCursorLock(); }
+       
     }
 
 
@@ -50,7 +51,7 @@ public class CameraMotion : MonoBehaviour {
 
     public void UpdateCursorLock()
     {
-        //if the user set "lockCursor" we check & properly lock the cursos
+        //if the user set "lockCursor" we check & properly lock the cursor
         if (lockCursor)
             InternalLockUpdate();
     }
