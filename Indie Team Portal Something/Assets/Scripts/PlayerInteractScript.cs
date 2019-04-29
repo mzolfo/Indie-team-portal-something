@@ -186,10 +186,12 @@ public class PlayerInteractScript : MonoBehaviour
                     if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
                     {
                         reachableInteractableObject.GetComponent<ContextualPosition>().AttachToDioramaObject(pickedUpObject);
+                        dropInstruct.text = "";
                     }
                     else if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Key)
                     {
                         reachableInteractableObject.GetComponent<ContextualPosition>().AttachToKeyObject(pickedUpObject);
+                        dropInstruct.text = "";
                     }
                     pickedUpObject = null;
                     reachableInteractableObject = null;
