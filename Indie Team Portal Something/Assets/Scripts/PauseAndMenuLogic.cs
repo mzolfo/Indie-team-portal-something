@@ -8,6 +8,10 @@ public class PauseAndMenuLogic : MonoBehaviour
     public static bool Paused = false;
 
     public GameObject pauseMenu;
+    [SerializeField]
+    private Button ResumeButton;
+    [SerializeField]
+    private Button ExitButton;
     
 
 
@@ -18,6 +22,8 @@ public class PauseAndMenuLogic : MonoBehaviour
     void Start()
     {
         ResumeGame();
+        ResumeButton.onClick.AddListener(ResumeGame);
+        ExitButton.onClick.AddListener(PauseGame);
     }
 
     // Update is called once per frame
