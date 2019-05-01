@@ -83,6 +83,7 @@ public class ContextualPosition : MonoBehaviour
     {
         myAssignedObject = Target;
         PickupObjectScript targetScript = Target.GetComponent<PickupObjectScript>();
+        targetScript.AttachToKeyPosition();
         myOwnCollider.enabled = false;
         keyInPlace = true;
         if (MyHelpLight != null)

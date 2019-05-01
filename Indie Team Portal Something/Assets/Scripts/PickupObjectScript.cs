@@ -24,6 +24,8 @@ public class PickupObjectScript : MonoBehaviour
     private Transform lockToPosition;
     [SerializeField]
     private BoxCollider myCollider;
+    [SerializeField]
+    private BoxCollider mySecondaryCollider;
     private Rigidbody myOwnRigidbody;
     private int startingLayer;
 
@@ -92,6 +94,10 @@ public class PickupObjectScript : MonoBehaviour
     {
         lockToPosition.position = new Vector3(lockToPosition.position.x, lockToPosition.position.y, lockToPosition.position.z);
         myCollider.enabled = false;
+        if (mySecondaryCollider != null)
+        {
+            mySecondaryCollider.enabled = false;
+        }
     }
    
 

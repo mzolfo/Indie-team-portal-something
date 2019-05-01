@@ -157,7 +157,7 @@ public class PlayerInteractScript : MonoBehaviour
             else
             {
                 interactableInRange = true;
-                InteractText.text = "E: Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().title;
+                InteractText.text = "Pickup " + reachableInteractableObject.GetComponent<PickupObjectScript>().title;
             }
             return true;
         }
@@ -212,7 +212,7 @@ public class PlayerInteractScript : MonoBehaviour
         //if the object is a pickup and there is no pickup in hand then pick it up.
         if (timesDropped <= 3)
         {
-            dropInstruct.text = "Press Q to Drop the Item.";
+            dropInstruct.text = "Right Click to Drop the Item.";
         }
         pickedUpObject = reachableInteractableObject;
         target.playerPickedUpPosition = playerPickedUpPosition;
@@ -245,7 +245,7 @@ public class PlayerInteractScript : MonoBehaviour
     void InstructCanPlaceObject()
     {
         interactableInRange = true;
-        InteractText.text = "E: Place " + pickedUpObjectScript.title;
+        InteractText.text = "Place " + pickedUpObjectScript.title;
     }
 
     void InstructHandsAreFull()
