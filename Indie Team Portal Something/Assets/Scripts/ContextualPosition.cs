@@ -18,6 +18,8 @@ public class ContextualPosition : MonoBehaviour
     private bool hasObjectToStart = false;
     [SerializeField]
     private GameObject startObject;
+    [SerializeField]
+    private AudioSource MyTargetAudioSource;
 
 
     //a script for locations that collect pickups to be placed.
@@ -89,6 +91,10 @@ public class ContextualPosition : MonoBehaviour
         if (MyHelpLight != null)
         {
             MyHelpLight.SetActive(false);
+        }
+        if (MyTargetAudioSource != null)
+        {
+            MyTargetAudioSource.Play();
         }
     }
 

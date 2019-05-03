@@ -15,6 +15,11 @@ public class DoorAnimationLogic : MonoBehaviour
     private BoxCollider OpenCollider;
     [SerializeField]
     private BoxCollider ClosedCollider;
+    private AudioSource myAudioSource;
+    [SerializeField]
+    private AudioClip OpeningClip;
+    [SerializeField]
+    private AudioClip ClosingClip;
 
     [SerializeField]
     private GameObject AssociatedPortalColliderPlane;
@@ -24,6 +29,10 @@ public class DoorAnimationLogic : MonoBehaviour
     {
         DoorAnimator = GetComponent<Animator>();
         myState = State.Closed;
+        if (GetComponent<AudioSource>() != null)
+        {
+            myAudioSource = GetComponent<AudioSource>();
+        }
     }
 
     // Update is called once per frame
@@ -39,10 +48,17 @@ public class DoorAnimationLogic : MonoBehaviour
         if (AssociatedPortalColliderPlane.activeInHierarchy && myState == State.Closed)
         {
             myState = State.Opening;
+            if (myAudioSource != null)
+            {
+                myAudioSource.clip = OpeningClip;
+                myAudioSource.Play();
+            }
+           
         }
         else if (!AssociatedPortalColliderPlane.activeInHierarchy && myState == State.Open)
         {
             myState = State.Closing;
+           
         }
     }
 
@@ -88,6 +104,12 @@ public class DoorAnimationLogic : MonoBehaviour
         else if (myState == State.Closing)
         {
             myState = State.Closed;
+            if (myAudioSource != null)
+            {
+                myAudioSource.clip = ClosingClip;
+                myAudioSource.Play();
+            }
+            
         }
     }
 

@@ -16,7 +16,7 @@ public class CameraMotion : MonoBehaviour {
     private bool m_cursorIsLocked;
     private float yaw = 0.0f;
     private float pitch = 0.0f;
-
+    public bool EndgameBegun = false;
    
     
 	// Use this for initialization
@@ -26,22 +26,28 @@ public class CameraMotion : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!PauseAndMenuLogic.Paused)
-        { yRotationOffset = PlayerTransform.eulerAngles.y;
-            yaw += speedH * Input.GetAxis("Mouse X");
-            pitch -= speedV * Input.GetAxis("Mouse Y");
-            
-            if (pitch > 50)
+        if (!EndgameBegun)
+        {
+            if (!PauseAndMenuLogic.Paused)
             {
-                pitch = 50f;
-            }
-            else if (pitch < -50)
-            {
-                pitch = -50f;
-            }
+                yRotationOffset = PlayerTransform.eulerAngles.y;
+                yaw += speedH * Input.GetAxis("Mouse X");
+                pitch -= speedV * Input.GetAxis("Mouse Y");
 
-            transform.eulerAngles = new Vector3(pitch, yaw + yRotationOffset, 0.0f);
-        UpdateCursorLock(); }
+                if (pitch > 50)
+                {
+                    pitch = 50f;
+                }
+                else if (pitch < -50)
+                {
+                    pitch = -50f;
+                }
+
+                transform.eulerAngles = new Vector3(pitch, yaw + yRotationOffset, 0.0f);
+                UpdateCursorLock();
+            }
+        }
+        
        
     }
 

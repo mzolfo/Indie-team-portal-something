@@ -21,8 +21,16 @@ public class PlayerInteractScript : MonoBehaviour
     private Transform playerPickedUpPosition;
     [SerializeField]
     private Transform playerDroppedPosition;
+    private bool EndstateBegun = false;
+    [SerializeField]
+    private AudioSource InteractablesAndMagicSoundsAudio;
 
-    
+    [SerializeField]
+    private AudioClip BookPlacedClip;
+    [SerializeField]
+    private AudioClip RoomMovedClip;
+    [SerializeField]
+    private AudioClip PowerDownClip;
 
     [SerializeField]
     private GameObject reachableInteractableObject;
@@ -41,24 +49,28 @@ public class PlayerInteractScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!PauseAndMenuLogic.Paused)
+        if (!EndstateBegun)
         {
-            CheckIfInteractableIsInRange();
-            if (Input.GetButtonDown("Interact"))
+            if (!PauseAndMenuLogic.Paused)
             {
-                if (interactableInRange)
-                { AttemptToInteract(); }
-
-            }
-
-            if (Input.GetButtonDown("Drop"))
-            {
-                if (pickedUpObject != null)
+                CheckIfInteractableIsInRange();
+                if (Input.GetButtonDown("Interact"))
                 {
-                    DropPickedUpObject(pickedUpObject.GetComponent<PickupObjectScript>());
+                    if (interactableInRange)
+                    { AttemptToInteract(); }
+
+                }
+
+                if (Input.GetButtonDown("Drop"))
+                {
+                    if (pickedUpObject != null)
+                    {
+                        DropPickedUpObject(pickedUpObject.GetComponent<PickupObjectScript>());
+                    }
                 }
             }
         }
+        
        
     }
 
@@ -84,6 +96,12 @@ public class PlayerInteractScript : MonoBehaviour
                 else if (reachableInteractableObject.GetComponent<BasicOnOffSwitch>() != null)
                 {
                     InteractText.text = "Toggle the Forcefield.";
+                    interactableInRange = true;
+                    return;
+                }
+                else if (reachableInteractableObject.GetComponent<MailBoxEndstateManager>() != null)
+                {
+                    InteractText.text = "Deliver the Package.";
                     interactableInRange = true;
                     return;
                 }
@@ -174,7 +192,7 @@ public class PlayerInteractScript : MonoBehaviour
                 pickedUpObjectScript = reachableInteractableObject.GetComponent<PickupObjectScript>();
                 PickUpObject(pickedUpObjectScript);
             }
-            
+
         }
         else if (reachableInteractableObject.GetComponent<ContextualPosition>() != null)
         {
@@ -187,11 +205,18 @@ public class PlayerInteractScript : MonoBehaviour
                     {
                         reachableInteractableObject.GetComponent<ContextualPosition>().AttachToDioramaObject(pickedUpObject);
                         dropInstruct.text = "";
+                        InteractablesAndMagicSoundsAudio.clip = RoomMovedClip;
+                        InteractablesAndMagicSoundsAudio.Play();
                     }
                     else if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Key)
                     {
                         reachableInteractableObject.GetComponent<ContextualPosition>().AttachToKeyObject(pickedUpObject);
                         dropInstruct.text = "";
+                        if (pickedUpObjectScript.name == "Book")
+                        {
+                            InteractablesAndMagicSoundsAudio.clip = BookPlacedClip;
+                            InteractablesAndMagicSoundsAudio.Play();
+                        }
                     }
                     pickedUpObject = null;
                     reachableInteractableObject = null;
@@ -202,6 +227,14 @@ public class PlayerInteractScript : MonoBehaviour
         else if (reachableInteractableObject.GetComponent<BasicOnOffSwitch>() != null)
         {
             reachableInteractableObject.GetComponent<BasicOnOffSwitch>().ToggleActiveStateOfTarget();
+            InteractablesAndMagicSoundsAudio.clip = PowerDownClip;
+            InteractablesAndMagicSoundsAudio.Play();
+        }
+        else if (reachableInteractableObject.GetComponent<MailBoxEndstateManager>() != null)
+        {
+            EndstateBegun = true;
+            reachableInteractableObject.GetComponent<MailBoxEndstateManager>().BeginEndState();
+            InteractText.text = "";
         }
         //this only reacts if the interactable is a pickup
         
