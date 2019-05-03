@@ -21,6 +21,9 @@ public class TestForFanfareSFX : MonoBehaviour
     [SerializeField]
     private SummoningCirclePuzzleLogic summoningCircle;
 
+    [SerializeField]
+    private PlayerInteractScript RigidBodyPlayer;
+
     private int greenhousePosition;
     private int libraryPosition;
     private int divinationTowerPosition;
@@ -90,10 +93,10 @@ public class TestForFanfareSFX : MonoBehaviour
         {
             CheckDivinationPositioningSolved();
         }
-        //if (!packageDelivered)
-        //{
-       //     CheckPackageDelivered();
-       // }
+        if (!packageDelivered)
+        {
+            CheckPackageDelivered();
+        }
     }
 
     void TriggerPuzzleSolvedEffect()
@@ -193,8 +196,11 @@ public class TestForFanfareSFX : MonoBehaviour
 
     void CheckPackageDelivered()
     {
-        //INCOMPLETE
-        //needs implemented conditions by which the package can be found as delivered.
+        if (RigidBodyPlayer.EndstateBegun)
+        {
+            TriggerPuzzleSolvedEffect();
+            packageDelivered = true;
+        }
     }
 
 }

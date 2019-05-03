@@ -39,7 +39,7 @@ public class MailBoxEndstateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

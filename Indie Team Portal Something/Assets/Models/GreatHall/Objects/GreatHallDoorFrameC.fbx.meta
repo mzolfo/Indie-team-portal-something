@@ -6,6 +6,8 @@ ModelImporter:
     100000: //RootNode
     400000: //RootNode
     2100000: lambert3
+    2100002: lambert4
+    2100004: blinn1
     2300000: //RootNode
     3300000: //RootNode
     4300000: ModWall_4a

@@ -6,7 +6,7 @@ public class BoxThrow : MonoBehaviour
 {
 
     private Rigidbody myRigidBody;
-    private bool hasThrown;
+    
     [SerializeField]
     private Vector3 forceToAdd;
     // Start is called before the first frame update
@@ -26,7 +26,6 @@ public class BoxThrow : MonoBehaviour
     {
         myRigidBody.isKinematic = false;
         myRigidBody.AddForce(forceToAdd);
-        hasThrown = true;
     }
 
 }

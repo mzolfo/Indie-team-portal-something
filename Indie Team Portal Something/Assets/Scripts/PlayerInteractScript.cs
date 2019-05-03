@@ -21,7 +21,7 @@ public class PlayerInteractScript : MonoBehaviour
     private Transform playerPickedUpPosition;
     [SerializeField]
     private Transform playerDroppedPosition;
-    private bool EndstateBegun = false;
+    public bool EndstateBegun = false;
     [SerializeField]
     private AudioSource InteractablesAndMagicSoundsAudio;
 
