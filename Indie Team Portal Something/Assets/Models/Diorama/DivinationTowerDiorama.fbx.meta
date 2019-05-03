@@ -173,8 +173,11 @@ ModelImporter:
     400166: transform9
     2100000: lambert1
     2300000: pCube227
+    2300002: //RootNode
     3300000: pCube227
+    3300002: //RootNode
     4300000: pCube227
+    4300002: polySurface3
   externalObjects: {}
   materials:
     importMaterials: 1
