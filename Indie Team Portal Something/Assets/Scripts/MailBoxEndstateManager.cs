@@ -28,7 +28,7 @@ public class MailBoxEndstateManager : MonoBehaviour
     private GameObject EndgameCamera;
     [SerializeField]
     private Rigidbody wizardCutoutRigidbody;
-    private AudioSource myAudioSource;
+    private AudioSource endCameraAudioSource;
     
     [SerializeField]
     private Animator blackPlate;
@@ -39,7 +39,7 @@ public class MailBoxEndstateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myAudioSource = GetComponent<AudioSource>();
+        endCameraAudioSource = EndgameCamera.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -82,7 +82,7 @@ public class MailBoxEndstateManager : MonoBehaviour
     {
         DeliveryBox.GetComponent<Rigidbody>().isKinematic = false;
         DeliveryBox.GetComponent<BoxThrow>().ThrowSelf();
-        myAudioSource.Play();
+        endCameraAudioSource.Play();
     }
 
     public void CutToBlack()

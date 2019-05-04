@@ -7,6 +7,8 @@ public class HelpLightTarget : MonoBehaviour
     [SerializeField]
     private GameObject targetHelpLight;
     private Light myOwnLight;
+    [SerializeField]
+    private MeshRenderer MyHelpLightRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,7 @@ public class HelpLightTarget : MonoBehaviour
         if (!targetHelpLight.activeInHierarchy)
         {
             myOwnLight.range = 35;
+            MyHelpLightRenderer.enabled = true;
         }
     }
 }

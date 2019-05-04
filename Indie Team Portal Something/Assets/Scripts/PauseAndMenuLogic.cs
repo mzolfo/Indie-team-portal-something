@@ -12,7 +12,8 @@ public class PauseAndMenuLogic : MonoBehaviour
     private Button ResumeButton;
     [SerializeField]
     private Button ExitButton;
-    
+    [SerializeField]
+    private GameObject greyPlate;
 
 
     //private GameObject PauseInstruction;
@@ -55,7 +56,7 @@ public class PauseAndMenuLogic : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         Paused = false;
-
+        greyPlate.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -65,7 +66,7 @@ public class PauseAndMenuLogic : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         Paused = true;
-
+        greyPlate.SetActive(true);
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 

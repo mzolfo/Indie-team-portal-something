@@ -13,7 +13,8 @@ public class SummoningCirclePuzzleLogic : MonoBehaviour
     public bool hasBeenSolved;
     [SerializeField]
     private GameObject DivinationTowerDiorama;
-
+    [SerializeField]
+    private ParticleSystem SummonCircleParticles;
     [SerializeField]
     private Transform SummonedObjectSpot;
     // Start is called before the first frame update
@@ -30,11 +31,19 @@ public class SummoningCirclePuzzleLogic : MonoBehaviour
             if (CandleSpot1.keyInPlace && CandleSpot2.keyInPlace)
             {
                 //make the tower appear and track that it has been done so it doesnt do it anymore.
-                DivinationTowerDiorama.SetActive(true);
-                DivinationTowerDiorama.transform.position = SummonedObjectSpot.position;
+                SummonCircleParticles.Play();
+                StartCoroutine(SummonDiorama());
+                
                 hasBeenSolved = true;
             }
         }
        
     }
-}
+
+    IEnumerator SummonDiorama()
+    {
+        yield return new WaitForSeconds(6.5f);
+        DivinationTowerDiorama.SetActive(true);
+        DivinationTowerDiorama.transform.position = SummonedObjectSpot.position;
+    }
+   }
