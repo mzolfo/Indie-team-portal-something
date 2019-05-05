@@ -12,10 +12,11 @@ public class BasicOnOffSwitch : MonoBehaviour
     private Material OffColor;
     private bool ObjectIsOn = true;
     private Material MyCurrentMaterial;
-
+    private AudioSource myOwnAudioSource;
     // Start is called before the first frame update
     void Start()
     {
+        myOwnAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -29,7 +30,7 @@ public class BasicOnOffSwitch : MonoBehaviour
         
         foreach (GameObject g in ObjectsToBeManipulated)
         {
-            if (g.activeInHierarchy) { g.SetActive(false); ObjectIsOn = false; }
+            if (g.activeInHierarchy) { g.SetActive(false); ObjectIsOn = false; myOwnAudioSource.Play(); }
             else { g.SetActive(true); ObjectIsOn = true; }
         }
         ToggleOwnColorState();

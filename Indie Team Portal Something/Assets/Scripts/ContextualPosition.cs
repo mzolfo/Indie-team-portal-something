@@ -92,14 +92,16 @@ public class ContextualPosition : MonoBehaviour
         {
             MyHelpLight.SetActive(false);
         }
-        if (MyTargetAudioSource != null)
-        {
-            MyTargetAudioSource.Play();
-        }
+        
     }
 
     public AssociatedPortalData GetAttachedObjectPortalData()
     {
         return myAssignedObject.GetComponent<PickupObjectScript>().myownAssociatedPortals;
+    }
+
+    public void TriggerSound()
+    {
+        MyTargetAudioSource.Play();
     }
 }
