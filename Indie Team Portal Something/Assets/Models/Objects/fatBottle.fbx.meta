@@ -9,7 +9,12 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: fatBottle
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: bottle_fat
+    second: {fileID: 2800000, guid: 6d34c14bc93ce334e9a9eff136b6f1a9, type: 3}
   materials:
     importMaterials: 1
     materialName: 0

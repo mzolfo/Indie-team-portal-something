@@ -11,7 +11,12 @@ ModelImporter:
     2300000: pasted__stool4
     3300000: pasted__stool4
     4300000: pasted__stool4
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: stool
+    second: {fileID: 2800000, guid: 1b8740ed68a6a114295853f77f87d939, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
