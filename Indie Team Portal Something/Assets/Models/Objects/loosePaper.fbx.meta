@@ -9,7 +9,12 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: loosePaper
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: paper
+    second: {fileID: 2800000, guid: f3b6fec8254073e43a0b0f30d48d7ba2, type: 3}
   materials:
     importMaterials: 1
     materialName: 0

@@ -9,7 +9,12 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: thinBottle
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: bottle_tall
+    second: {fileID: 2800000, guid: 40c029f13b2e6a34cbb3911aabd378bd, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
