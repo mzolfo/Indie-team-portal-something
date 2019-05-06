@@ -36,8 +36,11 @@ public class LibraryMazeShelf : MonoBehaviour
 
     public void EndFrame()
     {
+    } 
 
+    public void TriggerSound()
+    {
+            myContextualPosition.TriggerSound();
+    
     }
-
-
 }
