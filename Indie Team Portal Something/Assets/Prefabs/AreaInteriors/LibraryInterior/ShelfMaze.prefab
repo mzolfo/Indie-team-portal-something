@@ -1346,7 +1346,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 71e9f368b87f6dc4a954773631af2d0b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8e7d0eb85c6a700489d761d6445bd190, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -2360,6 +2360,19 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!65 &906003415490762588
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906003414637099531}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4257011, y: 2.4582367, z: 4.014707}
+  m_Center: {x: -0.21284957, y: 1.2291183, z: -2.0073535}
 --- !u!1 &906003414676414200
 GameObject:
   m_ObjectHideFlags: 0
@@ -4058,7 +4071,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 71e9f368b87f6dc4a954773631af2d0b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d03023c4bfcffba4f952305bdc31e895, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -6362,19 +6375,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.42570117, y: 2.4582367, z: 2.185125}
   m_Center: {x: -0.21285723, y: 1.2291183, z: -1.0925585}
---- !u!65 &906003415490762588
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 906003414637099531}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.4257011, y: 2.4582367, z: 4.014707}
-  m_Center: {x: -0.21284957, y: 1.2291183, z: -2.0073535}
 --- !u!1 &906003415755191524
 GameObject:
   m_ObjectHideFlags: 0
@@ -7321,11 +7321,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 415014269503624277, guid: 3322eb173b328094c87ae17dfddc1ea5,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 983a3d46faf970c458e500f0930d3743, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3322eb173b328094c87ae17dfddc1ea5, type: 3}
 --- !u!4 &906003415752587549 stripped
@@ -7345,11 +7340,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StylizedBookshelf
-      objectReference: {fileID: 0}
-    - target: {fileID: 1734452055026561380, guid: f3203878085a5f842bf82b97436b6798,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1734452055026561381, guid: f3203878085a5f842bf82b97436b6798,
         type: 3}
@@ -7411,18 +7401,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 983a3d46faf970c458e500f0930d3743, type: 2}
-    m_RemovedComponents:
-    - {fileID: 9011595184152916067, guid: f3203878085a5f842bf82b97436b6798, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3203878085a5f842bf82b97436b6798, type: 3}
---- !u!4 &906003414637099530 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1734452055026561381, guid: f3203878085a5f842bf82b97436b6798,
-    type: 3}
-  m_PrefabInstance: {fileID: 1477400281425759087}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &906003414637099531 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1734452055026561380, guid: f3203878085a5f842bf82b97436b6798,
+    type: 3}
+  m_PrefabInstance: {fileID: 1477400281425759087}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &906003414637099530 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1734452055026561381, guid: f3203878085a5f842bf82b97436b6798,
     type: 3}
   m_PrefabInstance: {fileID: 1477400281425759087}
   m_PrefabAsset: {fileID: 0}
