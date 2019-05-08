@@ -74,8 +74,7 @@ public class PortalSwitcher : MonoBehaviour
     {
         CheckDestinationsAreEqual();
 
-        //if (portalRevertDest != 0)
-       // { RevertPortal(portalRevertDest); }
+        
     }
 
 
