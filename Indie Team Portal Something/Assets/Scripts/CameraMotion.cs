@@ -44,11 +44,13 @@ public class CameraMotion : MonoBehaviour {
                 }
 
                 transform.eulerAngles = new Vector3(pitch, yaw + yRotationOffset, 0.0f);
-                UpdateCursorLock();
+                
             }
         }
-        
-       
+        UpdateCursorLock();
+        if (EndgameBegun)
+        { m_cursorIsLocked = false; }
+
     }
 
 
@@ -64,6 +66,15 @@ public class CameraMotion : MonoBehaviour {
 
     private void InternalLockUpdate()
     {
+        if (PauseAndMenuLogic.Paused)
+        {
+            m_cursorIsLocked = false;
+        }
+        else
+        {
+            m_cursorIsLocked = true;
+        }
+        /*
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             m_cursorIsLocked = false;
@@ -72,7 +83,7 @@ public class CameraMotion : MonoBehaviour {
         {
             m_cursorIsLocked = true;
         }
-
+        */
         if (m_cursorIsLocked)
         {
             Cursor.lockState = CursorLockMode.Locked;

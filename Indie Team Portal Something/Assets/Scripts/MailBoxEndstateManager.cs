@@ -29,9 +29,15 @@ public class MailBoxEndstateManager : MonoBehaviour
     [SerializeField]
     private Rigidbody wizardCutoutRigidbody;
     private AudioSource endCameraAudioSource;
-    
+    public PauseAndMenuLogic PauseScript;
+
     [SerializeField]
-    private Animator blackPlate;
+    private GameObject FinalCreditsObject;
+
+    [SerializeField]
+    private GameObject Blackplate;
+    private Image BlackPlateImage;
+    private Animator blackPlateAnimator;
     
 
 
@@ -40,6 +46,8 @@ public class MailBoxEndstateManager : MonoBehaviour
     void Start()
     {
         endCameraAudioSource = EndgameCamera.GetComponent<AudioSource>();
+        blackPlateAnimator = Blackplate.GetComponent<Animator>();
+        BlackPlateImage = Blackplate.GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -51,9 +59,9 @@ public class MailBoxEndstateManager : MonoBehaviour
     public void BeginEndState() //player has interacted with the mailbox begin endstate
     {
         playerCamera.GetComponent<CameraMotion>().EndgameBegun = true;
-        blackPlate.SetBool("Fading", true);
-        blackPlate.SetBool("Black", true);
-        //trigger the animator of the blackplate to begin fade to black
+        blackPlateAnimator.SetBool("Fading", true);
+        blackPlateAnimator.SetBool("Black", true);
+        //trigger the animator of the blackPlate to begin fade to black
 
         //when animator returns endframe return here.
     }
@@ -65,7 +73,7 @@ public class MailBoxEndstateManager : MonoBehaviour
         playerCamera.SetActive(false);
         EndgameCamera.SetActive(true);
         Player.SetActive(false);
-        blackPlate.SetBool("Black", false);
+        blackPlateAnimator.SetBool("Black", false);
         //then remove control from player and activate rigidbody on wizard cutout, turn on box to be thrown.
         //then position them for their exit animation
         //then fade in
@@ -87,6 +95,10 @@ public class MailBoxEndstateManager : MonoBehaviour
 
     public void CutToBlack()
     {
-        blackPlate.SetBool("Cut", true); //follow this with whatever we need for the actual end of the game.       
+        blackPlateAnimator.enabled = false;//follow this with whatever we need for the actual end of the game.       
+        BlackPlateImage.color = new Color(0, 0, 0, 1);
+        FinalCreditsObject.SetActive(true);
+        PauseScript.EndgameBegun = true;
+        PauseScript.PauseGame();
     }
 }

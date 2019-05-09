@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PauseAndMenuLogic : MonoBehaviour
 {
@@ -14,7 +15,12 @@ public class PauseAndMenuLogic : MonoBehaviour
     private Button ExitButton;
     [SerializeField]
     private GameObject greyPlate;
+    public bool EndgameBegun;
+    [SerializeField]
+    private List<Image> ButtonImages;
 
+    [SerializeField]
+    private Sprite ProperSource;
 
     //private GameObject PauseInstruction;
 
@@ -22,33 +28,37 @@ public class PauseAndMenuLogic : MonoBehaviour
 
     void Start()
     {
-        ResumeGame();
-        ResumeButton.onClick.AddListener(ResumeGame);
-        ExitButton.onClick.AddListener(PauseGame);
+        PauseGame();
+       
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Pause"))
+        if (!EndgameBegun)
         {
-            //if (PauseInstruction.activeSelf)
-           // {
-            //    PauseInstruction.SetActive(false);
-           // }
-            if (Paused)
+            if (Input.GetButtonDown("Pause"))
             {
-                ResumeGame();
-                Debug.Log("Player resumed gameplay.");
-            }
 
-            else
-            {
-                PauseGame();
-                Debug.Log("Player paused the game.");
-            }
+                if (Paused)
+                {
+                    ResumeGame();
+                    Debug.Log("Player resumed gameplay.");
+                }
 
+                else
+                {
+
+                    PauseGame();
+                    Debug.Log("Player paused the game.");
+
+
+                }
+
+            }
         }
+        
     }
 
     public void ResumeGame()
@@ -63,19 +73,31 @@ public class PauseAndMenuLogic : MonoBehaviour
 
    public void PauseGame()
     {
-        pauseMenu.SetActive(true);
+        updateImagesToOriginalEnvelope();
+        if (!EndgameBegun)
+        {
+            pauseMenu.SetActive(true);
+        }
+       
         Time.timeScale = 0f;
         Paused = true;
         greyPlate.SetActive(true);
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+       
 
     }
 
     public void ExitGame()
     {
-        //this should be changed to return to main menu when it is made
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
-    
+
+    void updateImagesToOriginalEnvelope()
+    {
+        for (int i = 0; i < ButtonImages.Count; i++)
+        {
+            ButtonImages[i].sprite = ProperSource;
+        }
+    }
 }

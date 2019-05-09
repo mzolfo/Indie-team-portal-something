@@ -25,7 +25,8 @@ public class MainMenuBackGroundCycle : MonoBehaviour
 
     public void FadeToBlack()
     {
-
+        BlackPlateAnimator.SetBool("Fading", true);
+        BlackPlateAnimator.SetBool("Black", true);
     }
 
     public void EndFrame()
@@ -33,18 +34,24 @@ public class MainMenuBackGroundCycle : MonoBehaviour
         if (myCurrentRoom == CurrentRoom.Greenhouse)
         {
             myAnimator.SetInteger("CurrentRoom", 1);
+            myCurrentRoom = CurrentRoom.GrandHall;
         }
         else if (myCurrentRoom == CurrentRoom.GrandHall)
         {
             myAnimator.SetInteger("CurrentRoom", 2);
+            myCurrentRoom = CurrentRoom.Library;
         }
         else if (myCurrentRoom == CurrentRoom.Library)
         {
             myAnimator.SetInteger("CurrentRoom", 3);
+            myCurrentRoom = CurrentRoom.DivinationTower;
         }
         else if (myCurrentRoom == CurrentRoom.DivinationTower)
         {
             myAnimator.SetInteger("CurrentRoom", 0);
+            myCurrentRoom = CurrentRoom.Greenhouse;
         }
+        BlackPlateAnimator.SetBool("Black", false);
     }
+
 }
