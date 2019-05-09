@@ -90,6 +90,7 @@ public class PauseAndMenuLogic : MonoBehaviour
 
     public void ExitGame()
     {
+        ResumeGame();
         SceneManager.LoadScene(0);
     }
 
