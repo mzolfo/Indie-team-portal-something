@@ -28,7 +28,9 @@ public class PlayerInteractScript : MonoBehaviour
     [SerializeField]
     private AudioClip BookPlacedClip;
     [SerializeField]
-    private AudioClip RoomMovedClip;
+    private AudioClip RoomPlacedClip;
+    [SerializeField]
+    private AudioClip RoomPickedUpClip;
     [SerializeField]
     private AudioClip PowerDownClip;
 
@@ -191,6 +193,11 @@ public class PlayerInteractScript : MonoBehaviour
             {
                 pickedUpObjectScript = reachableInteractableObject.GetComponent<PickupObjectScript>();
                 PickUpObject(pickedUpObjectScript);
+                if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Diorama)
+                {
+                    InteractablesAndMagicSoundsAudio.clip = RoomPickedUpClip;
+                    InteractablesAndMagicSoundsAudio.Play();
+                }
             }
 
         }
@@ -205,7 +212,7 @@ public class PlayerInteractScript : MonoBehaviour
                     {
                         reachableInteractableObject.GetComponent<ContextualPosition>().AttachToDioramaObject(pickedUpObject);
                         dropInstruct.text = "";
-                        InteractablesAndMagicSoundsAudio.clip = RoomMovedClip;
+                        InteractablesAndMagicSoundsAudio.clip = RoomPlacedClip;
                         InteractablesAndMagicSoundsAudio.Play();
                     }
                     else if (pickedUpObjectScript.myInteractType == PickupObjectScript.InteractType.Key)

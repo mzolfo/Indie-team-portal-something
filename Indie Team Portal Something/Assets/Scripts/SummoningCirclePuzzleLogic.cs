@@ -17,10 +17,11 @@ public class SummoningCirclePuzzleLogic : MonoBehaviour
     private ParticleSystem SummonCircleParticles;
     [SerializeField]
     private Transform SummonedObjectSpot;
+    private AudioSource myAudioSource;
     // Start is called before the first frame update
     void Start()
     {
-        
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,6 +33,7 @@ public class SummoningCirclePuzzleLogic : MonoBehaviour
             {
                 //make the tower appear and track that it has been done so it doesnt do it anymore.
                 SummonCircleParticles.Play();
+                myAudioSource.Play();
                 StartCoroutine(SummonDiorama());
                 
                 hasBeenSolved = true;
